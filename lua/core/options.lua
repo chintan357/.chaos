@@ -137,3 +137,5 @@ opt.foldexpr = "nvim_treesitter#foldexpr()" -- Utilize Treesitter folds
 
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
+
+opt.showtabline = 0

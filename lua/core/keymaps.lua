@@ -320,7 +320,7 @@ end, { desc = "Toggle Treesitter Highlight" })
 --
 
 -- highlights under cursor
-map("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
+-- map("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
 
 vim.cmd("set whichwrap+=<,>,[,],h,l")
 

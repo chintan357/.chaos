@@ -1,8 +1,9 @@
 return {
 	"epwalsh/obsidian.nvim",
 	version = "*",
-	lazy = true,
-	ft = "markdown",
+	-- lazy = true,
+	event = "VeryLazy",
+	-- ft = "markdown",
 	-- event = {
 	--   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
 	--   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
@@ -25,7 +26,7 @@ return {
 		},
 		daily_notes = {
 			-- Optional, if you keep daily notes in a separate directory.
-			-- folder = "notes/dailies",
+			folder = "dailies",
 			-- Optional, if you want to change the date format for the ID of daily notes.
 			-- date_format = "%Y-%m-%d",
 			-- Optional, if you want to change the date format of the default alias of daily notes.

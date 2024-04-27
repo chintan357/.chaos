@@ -1,4 +1,3 @@
--- Auto-completion / Snippets
 return {
 	-- https://github.com/hrsh7th/nvim-cmp
 	"hrsh7th/nvim-cmp",
@@ -77,11 +76,11 @@ return {
 				{ name = "buffer" }, -- text within current buffer
 				{ name = "path" }, -- file system paths
 			}),
-			-- window = {
-			-- 	-- Add borders to completions popups
-			-- 	completion = cmp.config.window.bordered(),
-			-- 	documentation = cmp.config.window.bordered(),
-			-- },
+			window = {
+				-- Add borders to completions popups
+				completion = cmp.config.window.bordered(),
+				documentation = cmp.config.window.bordered(),
+			},
 		})
 	end,
 }

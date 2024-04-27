@@ -21,7 +21,6 @@ require("core.keymaps")
 require("core.options")
 require("core.autocommands")
 require("core.keymaps2")
--- require("core.keymaps3")
 
 require("lazy").setup("plugins", {
 	change_detection = {

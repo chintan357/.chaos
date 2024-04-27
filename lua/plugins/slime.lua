@@ -2,24 +2,40 @@ return {
 	"jpalardy/vim-slime",
 	init = function()
 		vim.g.slime_target = "tmux"
-		vim.cmd([[
-        let g:slime_default_config = {"socket_name": "default", "target_pane": "1"}
-        ]])
+		vim.g.slime_default_config = { socket_name = "default", target_pane = "{last}" }
+		vim.g.slime_paste_file = vim.fn.expand("$HOME/.slime_paste")
+		vim.g.slime_dont_ask_default = true
 		vim.g.slime_no_mappings = 1
-		vim.g.slime_paste_file = "/home/chintan357/.slime_paste"
 		vim.g.slime_bracketed_paste = 1
-		vim.g.slime_dont_ask_default = 1
 		vim.g.slime_cell_delimiter = "#%%"
-		-- let g:slime_python_ipython = 1
+		-- vim.g.slime_python_ipython = true
 	end,
 	config = function()
-		vim.cmd([[
-        nmap <leader>sc <Plug>SlimeSendCell
-        ]])
 		-- vim.keymap.set("n", "<leader>sm", "<Plug>SlimeMotionSend<cr>", { remap = true, silent = false })
-		-- vim.keymap.set("n", "<leader>ss", "<Plug>SlimeLineSend<cr>", { remap = true, silent = false })
-		vim.keymap.set("x", "<leader>s", "<Plug>SlimeRegionSend<cr>", { remap = true, silent = false })
 		-- vim.keymap.set("n", "<leader>sc", "<Plug>SlimeConfig<cr>", { remap = true, silent = false })
-		vim.keymap.set("n", "<leader>sp", "<Plug>SlimeParagraphSend<cr>", { noremap = true, silent = true })
+		vim.cmd([[
+
+		"noremap <SID>Operator :<c-u>call slime#store_curpos()<cr>:set opfunc=slime#send_op<cr>g@
+
+		"noremap <unique> <script> <silent> <Plug>SlimeRegionSend :<c-u>call slime#send_op(visualmode(), 1)<cr>
+		"noremap <unique> <script> <silent> <Plug>SlimeLineSend :<c-u>call slime#send_lines(v:count1)<cr>
+		"noremap <unique> <script> <silent> <Plug>SlimeMotionSend <SID>Operator
+		"noremap <unique> <script> <silent> <Plug>SlimeParagraphSend <SID>Operatorip
+		"noremap <unique> <script> <silent> <Plug>SlimeConfig :<c-u>SlimeConfig<cr>
+		"noremap <unique> <script> <silent> <Plug>SlimeSendCell :<c-u>call slime#send_cell()<cr>
+
+		"if !hasmapto('<Plug>SlimeParagraphSend', 'n')
+		"    nmap <c-c><c-c> <Plug>SlimeParagraphSend
+
+		"nmap <c-c>v <Plug>SlimeConfig
+
+		":nnoremap <S-CR> <Plug>SlimeParagraphSend
+		":xnoremap <S-CR> <Plug>SlimeRegionSend
+
+    ]])
+
+		vim.keymap.set("n", "<leader>al", "<Plug>SlimeLineSend", { noremap = true, silent = true })
+		vim.keymap.set("n", "<leader>ap", "<Plug>SlimeParagraphSend", { noremap = true, silent = true })
+		vim.keymap.set({ "x", "v" }, "<leader>s", "<Plug>SlimeRegionSend", { noremap = true, silent = true })
 	end,
 }

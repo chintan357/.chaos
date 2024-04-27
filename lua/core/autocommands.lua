@@ -1,16 +1,15 @@
 local function augroup(name)
-	return vim.api.nvim_create_augroup("lazyvim_" .. name, { clear = true })
+	return vim.api.nvim_create_augroup("captain_" .. name, { clear = true })
 end
 
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
-	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
+	group = augroup("highlight_yank"),
 	callback = function()
 		vim.highlight.on_yank()
 	end,
 })
 
--- Check if we need to reload the file when it changed
 vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
 	group = augroup("checktime"),
 	callback = function()
@@ -20,15 +19,6 @@ vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
 	end,
 })
 
--- Highlight on yank
--- vim.api.nvim_create_autocmd("TextYankPost", {
---   group = augroup("highlight_yank"),
---   callback = function()
---     vim.highlight.on_yank()
---   end,
--- })
-
--- resize splits if window got resized
 vim.api.nvim_create_autocmd({ "VimResized" }, {
 	group = augroup("resize_splits"),
 	callback = function()
@@ -38,7 +28,6 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 	end,
 })
 
--- go to last loc when opening a buffer
 vim.api.nvim_create_autocmd("BufReadPost", {
 	group = augroup("last_loc"),
 	callback = function(event)
@@ -56,7 +45,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 	end,
 })
 
--- close some filetypes with <q>
 vim.api.nvim_create_autocmd("FileType", {
 	group = augroup("close_with_q"),
 	pattern = {
@@ -81,26 +69,23 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
--- make it easier to close man-files when opened inline
--- vim.api.nvim_create_autocmd("FileType", {
--- 	group = augroup("man_unlisted"),
--- 	pattern = { "man" },
--- 	callback = function(event)
--- 		vim.bo[event.buf].buflisted = false
--- 	end,
--- })
+vim.api.nvim_create_autocmd("FileType", {
+	group = augroup("man_unlisted"),
+	pattern = { "man" },
+	callback = function(event)
+		vim.bo[event.buf].buflisted = false
+	end,
+})
 
--- wrap and check for spell in text filetypes
--- vim.api.nvim_create_autocmd("FileType", {
---   group = augroup("wrap_spell"),
---   pattern = { "gitcommit", "markdown" },
---   callback = function()
---     vim.opt_local.wrap = true
---     vim.opt_local.spell = true
---   end,
--- })
+vim.api.nvim_create_autocmd("FileType", {
+	group = augroup("wrap_spell"),
+	pattern = { "gitcommit", "markdown" },
+	callback = function()
+		vim.opt_local.wrap = true
+		vim.opt_local.spell = true
+	end,
+})
 
--- Fix conceallevel for json files
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	group = augroup("json_conceal"),
 	pattern = { "json", "jsonc", "json5" },
@@ -109,7 +94,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 	end,
 })
 
--- Auto create dir when saving a file, in case some intermediate directory does not exist
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	group = augroup("auto_create_dir"),
 	callback = function(event)
@@ -120,16 +104,12 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 		vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
 	end,
 })
+
 vim.cmd([[
+
 "inoremap <expr> <cr> pumvisible() ? "\<c-y>" : "\<c-g>u\<cr>"
 "inoremap <expr> <c-n> pumvisible() ? "\<lt>c-n>" : "\<lt>c-n>\<lt>c-r>=pumvisible() ? \"\\<lt>down>\" : \"\"\<lt>cr>"
 "inoremap <expr> <m-;> pumvisible() ? "\<lt>c-n>" : "\<lt>c-x>\<lt>c-o>\<lt>c-n>\<lt>c-p>\<lt>c-r>=pumvisible() ? \"\\<lt>down>\" : \"\"\<lt>cr>"
-
-"augroup active_deactive
-"  au!
-"  autocmd BufEnter,BufWinEnter * :setlocal cursorline ruler number relativenumber laststatus=2
-"  autocmd BufLeave,BufWinLeave * :setlocal nocursorline noruler nonumber norelativenumber laststatus=0
-"augroup END
 
 augroup remember_folds
   autocmd!
@@ -163,13 +143,48 @@ augroup END
 
 autocmd BufEnter * execute "chdir ".escape(expand("%:p:h"), ' ')
 autocmd BufWritePre * :%s/\s\+$//e
-
- "Make sure that enter is never overriden in the quickfix window
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
 
+nnoremap <leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
+
 let g:lasttab = 1
-nnoremap Tr :exe "tabn ".g:lasttab<CR>
+noremap Tr :exe "tabn ".g:lasttab<CR>
 au TabLeave * let g:lasttab = tabpagenr()
 
+
+set switchbuf=useopen,usetab,newtab
+
+"set viewoptions-=options
+"set viewoptions=unix,slash
+
+"command! Bclose call <SID>BufcloseCloseIt()
+"function! <SID>BufcloseCloseIt()
+
+"let l:currentBufNum = bufnr("%")
+"let l:alternateBufNum = bufnr("#")
+"
+"if buflisted(l:alternateBufNum)
+"  buffer #
+"else
+"  bnext
+"endif
+"
+"if bufnr("%") == l:currentBufNum
+"  new
+"  endif
+"  if buflisted(l:currentBufNum)
+"    execute("bdelete! ".l:currentBufNum)
+"  endif
+"endfunction
+
+
+"for char in [ '_', '.', ':', ',', ';', '<bar>', '/', '<bslash>', '*', '+', '%', '`' ]
+"  execute 'xnoremap i' . char . ' :<C-u>normal! T' . char . 'vt' . char . '<CR>'
+"  execute 'onoremap i' . char . ' :normal vi' . char . '<CR>'
+"  execute 'xnoremap a' . char . ' :<C-u>normal! F' . char . 'vf' . char . '<CR>'
+"  execute 'onoremap a' . char . ' :normal va' . char . '<CR>'
+"endfor
+
+command! W w !sudo tee % > /dev/null
 
 ]])
