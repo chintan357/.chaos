@@ -327,11 +327,3 @@ BuildStatusline = function()
 end
 
 vim.opt.statusline = "%!v:lua.BuildStatusline()"
-
-vim.opt.undofile = true
-vim.opt.undodir = vim.fn.expand("~/.vim/undodir")
-vim.opt.undolevels = 1000
-vim.opt.undoreload = 10000
-vim.opt.showtabline = 2
-vim.opt.cmdwinheight = 1
-vim.opt.colorcolumn = "80"

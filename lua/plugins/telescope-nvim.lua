@@ -1,4 +1,3 @@
--- normal autocommands events (`:help autocmd-events`).
 return {
 	"nvim-telescope/telescope.nvim",
 	event = "VimEnter",
@@ -46,7 +45,6 @@ return {
 		keymap.set("n", '<leader>s"', builtin.registers)
 		keymap.set("n", "<leader>sa", builtin.autocommands)
 		keymap.set("n", "<leader>sm", builtin.marks)
-		-- keymap.set("n", "<leader>so", builtin.options)
 
 		keymap.set("n", "<leader>sf", builtin.find_files)
 		keymap.set("n", "<leader>sr", builtin.oldfiles)
@@ -62,13 +60,12 @@ return {
 		keymap.set("n", "<leader>sH", builtin.highlights)
 		keymap.set("n", "<leader>sM", builtin.man_pages)
 
-		keymap.set("n", "<leader>di", require("telescope.builtin").lsp_incoming_calls, {})
+		keymap.set("n", "<leader>in", require("telescope.builtin").lsp_incoming_calls, {})
 
 		keymap.set("n", "<leader>fm", function()
 			require("telescope.builtin").treesitter({ default_text = ":method:" })
 		end)
 
-		keymap.set("n", "<leader>fw", builtin.grep_string)
 		vim.keymap.set("n", "<leader>sg", builtin.live_grep)
 		vim.keymap.set("n", "<leader>/", function()
 			builtin.current_buffer_fuzzy_find(
@@ -86,20 +83,16 @@ return {
 		vim.keymap.set("n", "<leader>sc", function()
 			builtin.find_files({ cwd = vim.fn.stdpath("config") })
 		end)
+		vim.keymap.set("n", "<leader>sF", function()
+			builtin.find_files({ cwd = vim.fn.expand("~") })
+		end)
 
-		keymap.set("n", "<leader>sD", builtin.diagnostics)
-		keymap.set("n", "<leader>ss", builtin.builtin)
-		--
-		-- keymap.set("v", "<leader>sw", builtin.grep_string())
-		-- keymap.set("v", "<leader>sW", function()
-		-- 	builtin.grep_string({ cwd = false })
-		-- end)
-		-- keymap.set("v", "<leader>sW", function()
-		-- 	builtin.grep_string({ cwd = false })
-		-- end)
-		keymap.set("n", "<leader>sC", builtin.commands)
-		keymap.set("n", "<leader>sR", builtin.resume)
-		--
+		keymap.set("n", "<leader>fw", builtin.grep_string)
+		keymap.set("v", "<leader>fW", function()
+			builtin.grep_string({ cwd = false })
+		end)
+
+		keymap.set("n", "<leader>tb", builtin.builtin)
 	end,
 }
 -- vim.keymap.set("n", "<leadrr>fR", function()

@@ -54,7 +54,7 @@ return {
 	end,
 	opts = {
 		menu = {
-			width = 120,
+			-- width = 120,
 			width = vim.api.nvim_win_get_width(0) - 4,
 		},
 		settings = {

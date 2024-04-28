@@ -1,6 +1,6 @@
 return {
-  'echasnovski/mini.files',
-  config = function()
-    require('mini.files').setup()
-  end
+	"echasnovski/mini.files",
+	config = function()
+		require("mini.files").setup()
+	end,
 }

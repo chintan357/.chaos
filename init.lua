@@ -20,7 +20,6 @@ vim.opt.rtp:prepend(lazypath)
 require("core.keymaps")
 require("core.options")
 require("core.autocommands")
-require("core.keymaps2")
 
 require("lazy").setup("plugins", {
 	change_detection = {
