@@ -1,11 +1,13 @@
 return {
 	"zbirenbaum/copilot-cmp",
-	event = "InsertEnter",
-	dependencies = { "zbirenbaum/copilot.lua" },
 	config = function()
-		vim.defer_fn(function()
-			require("copilot").setup()
-			require("copilot_cmp").setup()
-		end, 100)
+		require("copilot_cmp").setup()
+		local lspkind = require("lspkind")
+		lspkind.init({
+			symbol_map = {
+				Copilot = "",
+			},
+		})
+		vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
 	end,
 }

@@ -131,3 +131,33 @@ vim.cmd([[ set guicursor=n-v-c-i:block ]])
 
 -- vim.opt.guicursor = ""
 -- vim.opt.isfname:append("@-@")
+
+vim.opt.wildoptions = { "pum", "tagfile" }
+vim.opt.wildignore:append({
+	"*.docx",
+	"*.jpg",
+	"*.png",
+	"*.gif",
+	"*.pdf",
+	"*.pyc",
+	"*.flv",
+	"*.img",
+	"*.xlsx",
+	"*~",
+	"*.pyc",
+	"*/.git/*",
+	"*.o",
+	"*.obj",
+	"*.rbc",
+	"__pycache__",
+	"*swp",
+	"*.class",
+	"*.png",
+	"*.zip",
+	"*/tmp/*",
+	"*.o",
+	"*.obj",
+	"*.so",
+	"*\\tmp\\*",
+	"*.exe",
+})

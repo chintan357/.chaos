@@ -1,5 +1,13 @@
+function Map(mode, lhs, rhs, opts)
+	local options = { noremap = true, silent = true }
+	if opts then
+		options = vim.tbl_extend("force", options, opts)
+	end
+	vim.keymap.set(mode, lhs, rhs, options)
+end
+
 local function augroup(name)
-	return vim.api.nvim_create_augroup("captain_" .. name, { clear = true })
+	return vim.api.nvim_create_augroup("atomic_" .. name, { clear = true })
 end
 
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -93,16 +101,16 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 	end,
 })
 
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-	group = augroup("auto_create_dir"),
-	callback = function(event)
-		if event.match:match("^%w%w+:[\\/][\\/]") then
-			return
-		end
-		local file = vim.uv.fs_realpath(event.match) or event.match
-		vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
-	end,
-})
+-- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+-- 	group = augroup("auto_create_dir"),
+-- 	callback = function(event)
+-- 		if event.match:match("^%w%w+:[\\/][\\/]") then
+-- 			return
+-- 		end
+-- 		local file = vim.uv.fs_realpath(event.match) or event.match
+-- 		vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
+-- 	end,
+-- })
 
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	pattern = { "*" },
@@ -118,24 +126,17 @@ vim.cmd([[
     autocmd BufWritePre * execute 'lcd ' .. fnamemodify(expand('%:p'), ':h')
   augroup END
 ]])
---
--- -- Function to change working directory to the directory of the current file
--- function change_directory_to_current_file()
---   vim.cmd("lcd " .. vim.fn.expand("%:p:h"))
--- end
--- -- Map the function to a key combination (e.g., <leader>c)
--- vim.api.nvim_set_keymap(
---   "n",
---   "<leader>c",
---   ":lua change_directory_to_current_file()<CR>",
---   { noremap = true, silent = true }
--- )
---
+
+function change_directory_to_current_file()
+	vim.cmd("lcd " .. vim.fn.expand("%:p:h"))
+end
+
+Map("n", "<leader>c", ":lua change_directory_to_current_file()<CR>", { noremap = true, silent = true })
+
 -- start terminal in insert mode
-vim.api.nvim_create_augroup("custom_buffer", { clear = true })
 vim.api.nvim_create_autocmd("TermOpen", {
 	desc = "Auto enter insert mode when opening a terminal",
-	group = "custom_buffer",
+	group = augroup("term_enter_insert"),
 	pattern = "*",
 	callback = function()
 		-- Wait briefly just in case we immediately switch out of the buffer (e.g. Neotest)

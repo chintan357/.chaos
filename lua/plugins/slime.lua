@@ -11,29 +11,9 @@ return {
 		-- vim.g.slime_python_ipython = true
 	end,
 	config = function()
-		-- vim.keymap.set("n", "<leader>sm", "<Plug>SlimeMotionSend<cr>", { remap = true, silent = false })
-		-- vim.keymap.set("n", "<leader>sc", "<Plug>SlimeConfig<cr>", { remap = true, silent = false })
-		vim.cmd([[
-
-		"noremap <SID>Operator :<c-u>call slime#store_curpos()<cr>:set opfunc=slime#send_op<cr>g@
-
-		"noremap <unique> <script> <silent> <Plug>SlimeRegionSend :<c-u>call slime#send_op(visualmode(), 1)<cr>
-		"noremap <unique> <script> <silent> <Plug>SlimeLineSend :<c-u>call slime#send_lines(v:count1)<cr>
-		"noremap <unique> <script> <silent> <Plug>SlimeMotionSend <SID>Operator
-		"noremap <unique> <script> <silent> <Plug>SlimeParagraphSend <SID>Operatorip
-		"noremap <unique> <script> <silent> <Plug>SlimeConfig :<c-u>SlimeConfig<cr>
-		"noremap <unique> <script> <silent> <Plug>SlimeSendCell :<c-u>call slime#send_cell()<cr>
-
-		"if !hasmapto('<Plug>SlimeParagraphSend', 'n')
-		"    nmap <c-c><c-c> <Plug>SlimeParagraphSend
-
-		"nmap <c-c>v <Plug>SlimeConfig
-
-		":nnoremap <S-CR> <Plug>SlimeParagraphSend
-		":xnoremap <S-CR> <Plug>SlimeRegionSend
-
-    ]])
-
+		vim.keymap.set("n", "<leader>am", "<Plug>SlimeMotionSend<cr>", { remap = true, silent = false })
+		vim.keymap.set("n", "<leader>slc", "<Plug>SlimeConfig<cr>", { remap = true, silent = false })
+		vim.keymap.set("n", "<leader>ac", "<Plug>SlimeSendCell<cr>", { remap = true, silent = false })
 		vim.keymap.set("n", "<leader>al", "<Plug>SlimeLineSend", { noremap = true, silent = true })
 		vim.keymap.set("n", "<leader>ap", "<Plug>SlimeParagraphSend", { noremap = true, silent = true })
 		vim.keymap.set({ "x", "v" }, "<leader>s", "<Plug>SlimeRegionSend", { noremap = true, silent = true })

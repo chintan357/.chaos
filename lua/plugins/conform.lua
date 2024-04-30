@@ -31,14 +31,14 @@ return { -- Autoformat
 			markdown = { { "prettierd", "prettier" } },
 			-- erb = { "htmlbeautifier" },
 			-- html = { "htmlbeautifier" },
-			-- bash = { "beautysh" },
+			bash = { "beautysh" },
 			proto = { "buf" },
 			yaml = { "yamlfix" },
 			-- toml = { "taplo" },
 			css = { { "prettierd", "prettier" } },
-			-- sh = { { "shellcheck" } },
+			sh = { { "shellcheck" } },
 			-- You can use a sub-list to tell conform to run *until* a formatter is found.
-			-- javascript = { { "prettierd", "prettier" } },
+			javascript = { { "prettierd", "prettier" } },
 		},
 	},
 }

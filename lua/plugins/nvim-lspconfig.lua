@@ -34,20 +34,19 @@ return {
 				map("K", vim.lsp.buf.hover, "Hover Documentation")
 
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
-				-- if client and client.server_capabilities.documentHighlightProvider then
-				-- 	local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
-				-- 	vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-				-- 		buffer = event.buf,
-				-- 		group = highlight_augroup,
-				-- 		callback = vim.lsp.buf.document_highlight,
-				-- 	})
-				--
-				-- 	vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-				-- 		buffer = event.buf,
-				-- 		group = highlight_augroup,
-				-- 		callback = vim.lsp.buf.clear_references,
-				-- 	})
-				-- end
+				if client and client.server_capabilities.documentHighlightProvider then
+					local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
+					vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+						buffer = event.buf,
+						group = highlight_augroup,
+						callback = vim.lsp.buf.document_highlight,
+					})
+					vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+						buffer = event.buf,
+						group = highlight_augroup,
+						callback = vim.lsp.buf.clear_references,
+					})
+				end
 
 				if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
 					map("<leader>th", function()
@@ -72,9 +71,17 @@ return {
 			lua_ls = {
 				settings = {
 					Lua = {
+						-- cmd = {...},
+						-- filetypes = { ...},
+						-- capabilities = {},
+						completion = {
+							callSnippet = "Replace",
+						},
 						diagnostics = {
 							globals = { "vim" },
 						},
+						-- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
+						-- diagnostics = { disable = { 'missing-fields' } },
 					},
 				},
 			},
@@ -83,50 +90,41 @@ return {
 			-- pyright = {},
 			-- rust_analyzer = {},
 			-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-			--
-			-- Some languages (like typescript) have entire language plugins that can be useful:
-			--    https://github.com/pmizio/typescript-tools.nvim
-			--
-			-- But for many setups, the LSP (`tsserver`) will work just fine
 			-- tsserver = {},
-			--
 		}
+		require("mason").setup()
+
 		local ensure_installed = vim.tbl_keys(servers or {})
+
 		vim.list_extend(ensure_installed, {
 			"lua_ls",
 			"bashls",
 			"cssls",
-			"lua_ls",
 			"html",
 			"jsonls",
 			"marksman",
 			"yamlls",
 			"pyright",
 			"stylua",
+			"black",
+			"debugpy",
+			"flake8",
+			"isort",
+			"mypy",
+			"pylint",
+			"prettier",
+			"prettierd",
+			"eslint_d",
+			"beautysh",
+			"buf",
+			"yamlfix",
+			"taplo",
+			"shellcheck",
 		})
 
-		require("mason").setup()
+		require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
-		require("mason-tool-installer").setup({
-			ensure_installed = {
-				"black",
-				"debugpy",
-				"flake8",
-				"isort",
-				"mypy",
-				"pylint",
-				"prettier",
-				"prettierd",
-				"eslint_d",
-				"beautysh",
-				"buf",
-				"yamlfix",
-				"taplo",
-				"shellcheck",
-			},
-		})
-
-		vim.api.nvim_command("MasonToolsInstall")
+		-- vim.api.nvim_command("MasonToolsInstall")
 
 		require("mason-lspconfig").setup({
 			handlers = {
@@ -142,12 +140,12 @@ return {
 		})
 		--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 		-- Globally configure all LSP floating preview popups (like hover, signature help, etc)
-		local open_floating_preview = vim.lsp.util.open_floating_preview
-		function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
-			opts = opts or {}
-			opts.border = opts.border or "rounded" -- Set border to rounded
-			return open_floating_preview(contents, syntax, opts, ...)
-		end
+		-- local open_floating_preview = vim.lsp.util.open_floating_preview
+		-- function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+		-- 	opts = opts or {}
+		-- 	opts.border = opts.border or "rounded" -- Set border to rounded
+		-- 	return open_floating_preview(contents, syntax, opts, ...)
+		-- end
 	end,
 }
 -- There is an issue with mason-tools-installer running with VeryLazy, since it triggers on VimEnter which has already occurred prior to this plugin loading so we need to call install explicitly
@@ -165,9 +163,6 @@ return {
 
 -- Lua LSP settings
 --
---     -- and elegantly composed help section, `:help lsp-vs-treesitter`
---         --  See `:help K` for why this keymap.
---
 --     local capabilities = vim.lsp.protocol.make_client_capabilities()
 --     capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 --
@@ -178,12 +173,7 @@ return {
 --     --  - settings (table): Override the default settings passed when initializing the server.
 --     --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 --
--- local map = function(keys, func, desc)
--- 	vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
--- end
---
--- vim.keymap.set("n", "<leader>sd", builtin.diagnostics { bufnr = 0 })
---     -- and elegantly composed help section, `:help lsp-vs-treesitter`
+-- and elegantly composed help section, `:help lsp-vs-treesitter`
 --  See `:help K` for why this keymap.
 -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
 -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs

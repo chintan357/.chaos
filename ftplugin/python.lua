@@ -1,6 +1,0 @@
--- vim.api.nvim_set_keymap(
---     "n",
---     "<Leader>s",
---     ':execute "normal \\<Plug>SlimeSendCell"<CR>/' .. vim.g.slime_cell_delimiter .. "<CR>:nohlsearch<CR>",
---     {noremap = true}
--- )

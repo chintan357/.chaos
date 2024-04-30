@@ -23,10 +23,10 @@ return {
 			},
 		},
 		chat = {
-			welcome_message = "I'm Atomic",
+			welcome_message = "",
 			loading_text = "Loading, please wait ...",
-			question_sign = "", -- 🙂
-			answer_sign = "ﮧ", -- 🤖
+			question_sign = "",
+			answer_sign = "ﮧ",
 			border_left_sign = "",
 			border_right_sign = "",
 			max_line_length = 120,
@@ -85,7 +85,7 @@ return {
 				highlight = "FloatBorder",
 				style = "rounded",
 				text = {
-					top = " Atomic",
+					top = "Atomic",
 				},
 			},
 			win_options = {

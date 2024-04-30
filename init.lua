@@ -4,10 +4,6 @@ vim.g.python3_host_prog = vim.fn.expand("~/.pyenv/versions/3.11.8/bin/python3.11
 
 vim.g.have_nerd_font = true
 
--- local opts = { noremap=true, silent=true }
-
---  See `:help lua-guide-autocommands`
-
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -25,47 +21,6 @@ require("lazy").setup("plugins", {
 		notify = false,
 	},
 })
-
--- "tpope/vim-sleuth",
--- require("lazy").setup({
--- Use `opts = {}` to force a plugin to be loaded.
---  This is equivalent to: require('Comment').setup({})
---
--- See `:help gitsigns` to understand what the configuration keys do
--- { -- Adds git related signs to the gutter, as well as utilities for managing changes
---   "lewis6991/gitsigns.nvim",
---   opts = {
---     signs = {
---       add = { text = "+" },
---       change = { text = "~" },
---       delete = { text = "_" },
---       topdelete = { text = "‾" },
---       changedelete = { text = "~" },
---     },
---   },
--- },
-
---       vim.cmd.hi 'Comment gui=none'
-
---
---  Here are some example plugins that I've included in the Kickstart repository.
---  Uncomment any of the lines below to enable them (you will need to restart nvim).
---
--- require 'kickstart.plugins.debug',
--- require 'kickstart.plugins.indent_line',
--- require 'kickstart.plugins.lint',
--- require 'kickstart.plugins.autopairs',
--- require 'kickstart.plugins.neo-tree',
--- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
-
---
---    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
--- { import = 'custom.plugins' },
--- }, {
---     ui = {
---       icons = vim.g.have_nerd_font and {},
---     },
---   })
 
 local currentmode = {
 	n = "N",
@@ -105,8 +60,3 @@ end
 -- set statusline +=%1*%v\ %*             "virtual column number
 
 vim.opt.statusline = "%!v:lua.BuildStatusline()"
-
--- See `:help vim.opt`
--- See `:help vim.keymap.set()`
---  For more options, you can see `:help option-list`
--- The line beneath this is called `modeline`. See `:help modeline`

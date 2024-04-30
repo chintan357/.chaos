@@ -52,7 +52,7 @@ return {
 			builtin.oldfiles({ cwd = vim.fn.getcwd() })
 		end)
 
-		keymap.set("n", "<leader>,", function()
+		keymap.set("n", "<leader>sb", function()
 			builtin.buffers({ sort_mru = true, sort_lastused = true })
 		end)
 
