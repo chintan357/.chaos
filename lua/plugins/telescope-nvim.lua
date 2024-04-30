@@ -48,6 +48,9 @@ return {
 
 		keymap.set("n", "<leader>sf", builtin.find_files)
 		keymap.set("n", "<leader>sr", builtin.oldfiles)
+		vim.keymap.set("n", "<leader>sR", function()
+			builtin.oldfiles({ cwd = vim.fn.getcwd() })
+		end)
 
 		keymap.set("n", "<leader>,", function()
 			builtin.buffers({ sort_mru = true, sort_lastused = true })
@@ -95,14 +98,6 @@ return {
 		keymap.set("n", "<leader>tb", builtin.builtin)
 	end,
 }
--- vim.keymap.set("n", "<leadrr>fR", function()
--- 	builtin.oldfiles({ cwd = vim.fn.getcwd() })
--- end)
--- vim.keymap.set("n", "<leader>sR", function()
--- 	builtin.oldfiles({ cwd = vim.fn.getcwd() })
--- end)
---
--- vim.keymap.set("n", "<leader>sS", function() builtin.lsp_dynamic_workspace_symbols { symbols = require("lazyvim.config").get_kind_filter() } end)
 --  See `:help telescope.builtin.live_grep()` for information about particular keys
 --  :Telescope help_tags
 --  - Insert mode: <c-/>

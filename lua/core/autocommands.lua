@@ -6,7 +6,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
 	group = augroup("highlight_yank"),
 	callback = function()
-		vim.highlight.on_yank()
+		vim.highlight.on_yank({ timeout = 200 })
 	end,
 })
 
@@ -61,7 +61,6 @@ vim.api.nvim_create_autocmd("FileType", {
 		"checkhealth",
 		"neotest-summary",
 		"neotest-output-panel",
-		"ChatGPT",
 	},
 	callback = function(event)
 		vim.bo[event.buf].buflisted = false
@@ -77,14 +76,14 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-	group = augroup("wrap_spell"),
-	pattern = { "gitcommit", "markdown" },
-	callback = function()
-		vim.opt_local.wrap = true
-		vim.opt_local.spell = true
-	end,
-})
+-- vim.api.nvim_create_autocmd("FileType", {
+-- 	group = augroup("wrap_spell"),
+-- 	pattern = { "gitcommit", "markdown" },
+-- 	callback = function()
+-- 		vim.opt_local.wrap = true
+-- 		vim.opt_local.spell = true
+-- 	end,
+-- })
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	group = augroup("json_conceal"),
@@ -108,4 +107,42 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	pattern = { "*" },
 	command = [[%s/\s\+$//e]],
+})
+
+-- vim.cmd([[autocmd FileType python    nnoremap ZZ  :w <CR> :! black % <CR>  :exit <CR> ]])
+
+vim.cmd([[
+  augroup autochange_chdir
+    autocmd!
+    autocmd BufEnter * execute 'lcd ' .. fnamemodify(expand('%:p'), ':h')
+    autocmd BufWritePre * execute 'lcd ' .. fnamemodify(expand('%:p'), ':h')
+  augroup END
+]])
+--
+-- -- Function to change working directory to the directory of the current file
+-- function change_directory_to_current_file()
+--   vim.cmd("lcd " .. vim.fn.expand("%:p:h"))
+-- end
+-- -- Map the function to a key combination (e.g., <leader>c)
+-- vim.api.nvim_set_keymap(
+--   "n",
+--   "<leader>c",
+--   ":lua change_directory_to_current_file()<CR>",
+--   { noremap = true, silent = true }
+-- )
+--
+-- start terminal in insert mode
+vim.api.nvim_create_augroup("custom_buffer", { clear = true })
+vim.api.nvim_create_autocmd("TermOpen", {
+	desc = "Auto enter insert mode when opening a terminal",
+	group = "custom_buffer",
+	pattern = "*",
+	callback = function()
+		-- Wait briefly just in case we immediately switch out of the buffer (e.g. Neotest)
+		vim.defer_fn(function()
+			if vim.api.nvim_buf_get_option(0, "buftype") == "terminal" then
+				vim.cmd([[startinsert]])
+			end
+		end, 100)
+	end,
 })

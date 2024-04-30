@@ -1,5 +1,6 @@
 return { -- Autoformat
 	"stevearc/conform.nvim",
+	-- event = { "BufReadPre", "BufNewFile" },
 	lazy = false,
 	keys = {
 		{
@@ -23,6 +24,19 @@ return { -- Autoformat
 		formatters_by_ft = {
 			lua = { "stylua" },
 			python = { "isort", "black" },
+			javascript = { { "prettierd", "prettier" } },
+			typescript = { { "prettierd", "prettier" } },
+			json = { { "prettierd", "prettier" } },
+			graphql = { { "prettierd", "prettier" } },
+			markdown = { { "prettierd", "prettier" } },
+			-- erb = { "htmlbeautifier" },
+			-- html = { "htmlbeautifier" },
+			-- bash = { "beautysh" },
+			proto = { "buf" },
+			yaml = { "yamlfix" },
+			-- toml = { "taplo" },
+			css = { { "prettierd", "prettier" } },
+			-- sh = { { "shellcheck" } },
 			-- You can use a sub-list to tell conform to run *until* a formatter is found.
 			-- javascript = { { "prettierd", "prettier" } },
 		},

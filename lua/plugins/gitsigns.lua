@@ -33,3 +33,45 @@ return {
 		end,
 	},
 }
+
+-- function M.gitgutter()
+-- 	cmd([[
+--         hi! link GitGutterAdd Constant
+--         hi! link GitGutterChange Type
+--         hi! link GitGutterDelete Identifier
+--         hi! link GitGutterAddLineNr GitGutterAdd
+--         hi! link GitGutterChangeLineNr GitGutterChange
+--         hi! link GitGutterDeleteLineNr GitGutterDelete
+--         hi! link GitGutterChangeDeleteLineNr GitGutterChangeDeleteLine
+--         hi! link GitGutterAddIntraLine DiffText
+--         hi! link GitGutterDeleteIntraLine DiffText
+--     ]])
+-- 	if g.colors_name == "one" then
+-- 		cmd("hi! GitGutterChangeDeleteLine guifg=#be5046")
+-- 	end
+-- 	map("n", "<Leader>hp", "<Plug>(GitGutterPreviewHunk)", {})
+-- 	map("n", "<Leader>hs", "<Plug>(GitGutterStageHunk)", {})
+-- 	map("n", "<Leader>hu", "<Plug>(GitGutterUndoHunk)", {})
+-- 	map("n", "[c", "<Plug>(GitGutterPrevHunk)", {})
+-- 	map("n", "]c", "<Plug>(GitGutterNextHunk)", {})
+-- 	map("o", "ih", "<Plug>(GitGutterTextObjectInnerPending)", {})
+-- 	map("o", "ah", "<Plug>(GitGutterTextObjectOuterPending)", {})
+-- 	map("x", "ih", "<Plug>(GitGutterTextObjectInnerVisual)", {})
+-- 	map("x", "ah", "<Plug>(GitGutterTextObjectOuterVisual)", {})
+-- end
+--
+-- Make n always go down and N always go up in a file
+-- vim.keymap.set("n", "n", function()
+-- 	if vim.v.searchforward == 1 then
+-- 		return "n"
+-- 	else
+-- 		return "N"
+-- 	end
+-- end, { expr = true })
+-- vim.keymap.set("n", "N", function()
+-- 	if vim.v.searchforward == 1 then
+-- 		return "N"
+-- 	else
+-- 		return "n"
+-- 	end
+-- end, { expr = true })

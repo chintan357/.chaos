@@ -115,6 +115,14 @@ return {
 				"isort",
 				"mypy",
 				"pylint",
+				"prettier",
+				"prettierd",
+				"eslint_d",
+				"beautysh",
+				"buf",
+				"yamlfix",
+				"taplo",
+				"shellcheck",
 			},
 		})
 
