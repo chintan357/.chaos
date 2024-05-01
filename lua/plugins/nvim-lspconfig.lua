@@ -1,5 +1,6 @@
 return {
 	-- https://github.com/neovim/nvim-lspconfig
+	--
 	"neovim/nvim-lspconfig",
 	event = "VeryLazy",
 	dependencies = {
@@ -16,7 +17,7 @@ return {
 	},
 	config = function()
 		vim.api.nvim_create_autocmd("LspAttach", {
-			group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
+			group = vim.api.nvim_create_augroup("atomic-lsp-attach", { clear = true }),
 			callback = function(event)
 				local map = function(keys, func, desc)
 					vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
@@ -35,7 +36,7 @@ return {
 
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
 				if client and client.server_capabilities.documentHighlightProvider then
-					local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
+					local highlight_augroup = vim.api.nvim_create_augroup("atomic-lsp-highlight", { clear = false })
 					vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 						buffer = event.buf,
 						group = highlight_augroup,
@@ -57,10 +58,10 @@ return {
 		})
 
 		vim.api.nvim_create_autocmd("LspDetach", {
-			group = vim.api.nvim_create_augroup("kickstart-lsp-detach", { clear = true }),
+			group = vim.api.nvim_create_augroup("atomic-lsp-detach", { clear = true }),
 			callback = function(event)
 				vim.lsp.buf.clear_references()
-				vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event.buf })
+				vim.api.nvim_clear_autocmds({ group = "atomic-lsp-highlight", buffer = event.buf })
 			end,
 		})
 
@@ -97,34 +98,23 @@ return {
 		local ensure_installed = vim.tbl_keys(servers or {})
 
 		vim.list_extend(ensure_installed, {
+			"pyright",
 			"lua_ls",
 			"bashls",
-			"cssls",
-			"html",
 			"jsonls",
-			"marksman",
 			"yamlls",
-			"pyright",
-			"stylua",
-			"black",
-			"debugpy",
-			"flake8",
-			"isort",
-			"mypy",
-			"pylint",
-			"prettier",
-			"prettierd",
-			"eslint_d",
-			"beautysh",
-			"buf",
-			"yamlfix",
-			"taplo",
+			"ruff",
 			"shellcheck",
+			"cssls",
+			"isort",
+			"html",
+			"marksman",
+			"stylua",
 		})
 
 		require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
-		-- vim.api.nvim_command("MasonToolsInstall")
+		vim.api.nvim_command("MasonToolsInstall")
 
 		require("mason-lspconfig").setup({
 			handlers = {

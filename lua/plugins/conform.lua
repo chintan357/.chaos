@@ -24,7 +24,6 @@ return { -- Autoformat
 		formatters_by_ft = {
 			lua = { "stylua" },
 			python = { "isort", "black" },
-			javascript = { { "prettierd", "prettier" } },
 			typescript = { { "prettierd", "prettier" } },
 			json = { { "prettierd", "prettier" } },
 			graphql = { { "prettierd", "prettier" } },

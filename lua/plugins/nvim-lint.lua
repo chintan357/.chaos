@@ -9,15 +9,9 @@ return {
 		-- Additional linters can be found here: https://github.com/mfussenegger/nvim-lint#available-linters
 		require("lint").linters_by_ft = {
 			python = {
-				-- Uncomment whichever linters you prefer
-				-- 'flake8',
-				-- 'mypy',
-				"pylint",
+				"ruff",
 			},
 			markdown = { "markdownlint" },
-			json = { "jsonlint" },
-			markdown = { "vale" },
-			text = { "vale" },
 		}
 
 		-- Automatically run linters after saving.  Use "InsertLeave" for more aggressive linting.
