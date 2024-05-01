@@ -13,7 +13,7 @@ return {
 		},
 		options = {
 			cursorline = true,
-			transparency = true,
+			transparency = false,
 			terminal_colors = true,
 			-- lualine_transparency = false, -- Center bar transparency?
 			highlight_inactive_windows = false, -- When the window is out of focus, change the normal background?

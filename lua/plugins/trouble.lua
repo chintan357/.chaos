@@ -9,14 +9,12 @@ return {
 		{ "<leader>tl", "<cmd>TroubleToggle loclist<cr>", desc = "Location List (Trouble)" },
 		{ "<leader>tq", "<cmd>TroubleToggle quickfix<cr>", desc = "Quickfix List (Trouble)" },
 		{
-			"n",
 			"<leader>tr",
 			function()
 				require("trouble").toggle("lsp_references")
 			end,
 		},
 		{
-			"n",
 			"<leader>tu",
 			function()
 				require("trouble").toggle()

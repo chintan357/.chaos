@@ -1,11 +1,3 @@
-function Map(mode, lhs, rhs, opts)
-	local options = { noremap = true, silent = true }
-	if opts then
-		options = vim.tbl_extend("force", options, opts)
-	end
-	vim.keymap.set(mode, lhs, rhs, options)
-end
-
 local function augroup(name)
 	return vim.api.nvim_create_augroup("atomic_" .. name, { clear = true })
 end
@@ -76,13 +68,13 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-	group = augroup("man_unlisted"),
-	pattern = { "man" },
-	callback = function(event)
-		vim.bo[event.buf].buflisted = false
-	end,
-})
+-- vim.api.nvim_create_autocmd("FileType", {
+-- 	group = augroup("man_unlisted"),
+-- 	pattern = { "man" },
+-- 	callback = function(event)
+-- 		vim.bo[event.buf].buflisted = false
+-- 	end,
+-- })
 
 -- vim.api.nvim_create_autocmd("FileType", {
 -- 	group = augroup("wrap_spell"),
@@ -93,13 +85,13 @@ vim.api.nvim_create_autocmd("FileType", {
 -- 	end,
 -- })
 
-vim.api.nvim_create_autocmd({ "FileType" }, {
-	group = augroup("json_conceal"),
-	pattern = { "json", "jsonc", "json5" },
-	callback = function()
-		vim.opt_local.conceallevel = 0
-	end,
-})
+-- vim.api.nvim_create_autocmd({ "FileType" }, {
+-- 	group = augroup("json_conceal"),
+-- 	pattern = { "json", "jsonc", "json5" },
+-- 	callback = function()
+-- 		vim.opt_local.conceallevel = 0
+-- 	end,
+-- })
 
 -- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 -- 	group = augroup("auto_create_dir"),
@@ -117,8 +109,6 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	command = [[%s/\s\+$//e]],
 })
 
--- vim.cmd([[autocmd FileType python    nnoremap ZZ  :w <CR> :! black % <CR>  :exit <CR> ]])
-
 vim.cmd([[
   augroup autochange_chdir
     autocmd!
@@ -127,13 +117,11 @@ vim.cmd([[
   augroup END
 ]])
 
-function change_directory_to_current_file()
-	vim.cmd("lcd " .. vim.fn.expand("%:p:h"))
-end
+-- function change_directory_to_current_file()
+-- 	vim.cmd("lcd " .. vim.fn.expand("%:p:h"))
+-- end
+-- vim.keymap.set("n", "", ":lua change_directory_to_current_file()<CR>", { silent = true, noremap = true })
 
-Map("n", "<leader>c", ":lua change_directory_to_current_file()<CR>", { noremap = true, silent = true })
-
--- start terminal in insert mode
 vim.api.nvim_create_autocmd("TermOpen", {
 	desc = "Auto enter insert mode when opening a terminal",
 	group = augroup("term_enter_insert"),

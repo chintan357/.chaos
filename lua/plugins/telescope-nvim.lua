@@ -48,7 +48,7 @@ return {
 
 		keymap.set("n", "<leader>sf", builtin.find_files)
 		keymap.set("n", "<leader>sr", builtin.oldfiles)
-		vim.keymap.set("n", "<leader>sR", function()
+		keymap.set("n", "<leader>sR", function()
 			builtin.oldfiles({ cwd = vim.fn.getcwd() })
 		end)
 
@@ -69,8 +69,8 @@ return {
 			require("telescope.builtin").treesitter({ default_text = ":method:" })
 		end)
 
-		vim.keymap.set("n", "<leader>sg", builtin.live_grep)
-		vim.keymap.set("n", "<leader>/", function()
+		keymap.set("n", "<leader>sg", builtin.live_grep)
+		keymap.set("n", "<leader>/", function()
 			builtin.current_buffer_fuzzy_find(
 				require("telescope.themes").get_dropdown({ winblend = 10, previewer = false })
 			)
@@ -83,10 +83,10 @@ return {
 			})
 		end, { desc = "[S]earch [/] in Open Files" })
 
-		vim.keymap.set("n", "<leader>sc", function()
+		keymap.set("n", "<leader>sc", function()
 			builtin.find_files({ cwd = vim.fn.stdpath("config") })
 		end)
-		vim.keymap.set("n", "<leader>sF", function()
+		keymap.set("n", "<leader>sF", function()
 			builtin.find_files({ cwd = vim.fn.expand("~") })
 		end)
 

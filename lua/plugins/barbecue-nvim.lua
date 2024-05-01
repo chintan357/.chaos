@@ -13,7 +13,7 @@ return {
 		create_autocmd = false,
 		show_dirname = false,
 		show_basename = true,
-		show_navic = true,
+		-- show_navic = true,
 		-- exclude_filetypes = {""},
 	},
 	config = function(_, opts)
@@ -28,7 +28,7 @@ return {
 			"BufWinEnter",
 			"CursorHold",
 			"InsertLeave",
-			-- "BufModifiedSet", -- include this if you have set `show_modified` to `true`
+			"BufModifiedSet", -- include this if you have set `show_modified` to `true`
 		}, {
 			group = vim.api.nvim_create_augroup("barbecue.updater", {}),
 			callback = function()

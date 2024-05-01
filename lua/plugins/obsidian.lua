@@ -48,12 +48,12 @@ return {
 			--   opts = { noremap = false, expr = true, buffer = true },
 			-- },
 			-- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
-			["gf"] = {
-				action = function()
-					return require("obsidian").util.gf_passthrough()
-				end,
-				opts = { noremap = false, expr = true, buffer = true },
-			},
+			-- ["gf"] = {
+			-- 	action = function()
+			-- 		return require("obsidian").util.gf_passthrough()
+			-- 	end,
+			-- 	opts = { noremap = false, expr = true, buffer = true },
+			-- },
 			-- Toggle check-boxes.
 			["<leader>ch"] = {
 				action = function()
