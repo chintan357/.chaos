@@ -1,15 +1,4 @@
--- vim.keymap.set("n", "<F2>", "x $ p")
-vim.cmd([[xnoremap i$ :<C-u> normal! T$vt$<CR>]])
-vim.cmd([[onoremap i$ :normal vi$<CR>]])
-vim.cmd([[xnoremap a$ :<C-u> normal!F$vf$<CR>]])
-vim.cmd([[onoremap a$ :normal va$<CR>]])
-
 --\| hor resize 10 \| term
-
--- map("i","llr", "\\left( \\right)<Esc>7hi")
-
--- TODO: take this
-vim.keymap.set("x", "<leader>p", '"_dP')
 
 function M.ghline()
 	map("", "<Leader>gO", "<Plug>(gh-repo)", {})
@@ -31,9 +20,6 @@ end
 -- vim.keymap.set("n", "<C-P>", function()
 -- 	vim.cmd("Files")
 -- end)
-
-map("n", "N", [[v:searchforward ? 'N' : 'n']], { expr = true, noremap = true, silent = true })
-map("n", "n", [[v:searchforward ? 'n' : 'N']], { expr = true, noremap = true, silent = true })
 
 -- fzf.vim configuration {{{
 vim.api.nvim_create_user_command("RgIgnoreFilename", function(opts)

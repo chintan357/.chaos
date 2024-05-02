@@ -4,7 +4,7 @@ opt.relativenumber = true
 opt.number = true
 
 opt.updatetime = 100
-opt.timeoutlen = 300
+opt.timeoutlen = 423
 
 opt.inccommand = "split"
 opt.incsearch = true

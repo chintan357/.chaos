@@ -6,6 +6,7 @@ function Map(mode, lhs, rhs, opts)
 	vim.keymap.set(mode, lhs, rhs, options)
 end
 
+Map("n", "<leader>qb", ":bd<CR>")
 Map("n", "<leader>qq", ":q!<CR>")
 Map("n", "<leader>Q", ":qa!<CR>")
 
@@ -30,7 +31,7 @@ Map("n", "<leader>cc", ":diffput<CR>") -- put diff from current to other during 
 Map("n", "<leader>ch", ":diffget 1<CR>") -- get diff from left (local) during merge
 Map("n", "<leader>cl", ":diffget 3<CR>") -- get diff from right (remote) during merge
 
-Map("n", "<M-o>", ":lua MiniFiles.open()<CR>", { noremap = true, silent = true })
+Map("n", "<M-o>", ":lua MiniFiles.open()<CR>")
 
 -- keymap.set("n", "<leader>go", function()
 -- 	if vim.bo.filetype == "python" then
@@ -87,8 +88,6 @@ Map("n", "<leader>dc", "<cmd>Telescope dap commands<cr>")
 -- stylua: ignore end
 
 Map("n", "<leader>qo", ":copen<CR>")
-Map("n", "<leader>qk", ":cfirst<CR>")
-Map("n", "<leader>ql", ":cnext<CR>")
 
 Map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 Map("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to Left Window" })
@@ -114,9 +113,6 @@ Map("v", "J", ":m '>+1<CR>gv=gv")
 Map("v", "<", "<gv")
 Map("v", ">", ">gv")
 
-Map("c", "<C-j>", 'pumvisible() ? "\\<C-n>" : "\\<C-j>"', { expr = true })
-Map("c", "<C-k>", 'pumvisible() ? "\\<C-p>" : "\\<C-k>"', { expr = true })
-
 Map("n", "<C-d>", "<C-d>zz")
 Map("n", "<C-u>", "<C-u>zz")
 Map("n", "<C-b>", "<C-b>zz")
@@ -136,7 +132,6 @@ Map("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 -- map("i", ",", ",<c-g>u")
 -- map("i", ".", ".<c-g>u")
 -- map("i", ";", ";<c-g>u")
---
 
 --keywordprg
 Map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
@@ -149,8 +144,6 @@ local diagnostic_goto = function(next, severity)
 	end
 end
 -- map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
--- Map("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
--- Map("n", "[d", diagnostic_goto(false), { desc = "Prev Diagnostic" })
 Map("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
 Map("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
 Map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
@@ -159,9 +152,6 @@ Map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
 -- Map("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
 
 vim.cmd("set whichwrap+=<,>,[,],h,l")
-
-vim.keymap.set({ "n", "x", "v" }, "j", "v:count > 7 ? 'gjzz' : 'gjzz'", { expr = true, silent = true })
-vim.keymap.set({ "n", "x", "v" }, "k", "v:count > 7 ? 'gkzz' : 'gkzz'", { expr = true, silent = true })
 
 -- vim.g.undotree_SetFocusWhenToggle = 0
 
@@ -202,11 +192,11 @@ Map("n", "<leader>M", "mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm")
 
 Map("n", "<leader>8", ":%s/")
 Map("n", "<leader>*", "yiw :%s/<C-r>0/")
+Map("n", "<leader>.8", ":.s/")
+Map("n", "<leader>.*", "yiw :.s/<C-r>0/")
 -- Map("n", "<leader>rw", ":%s/\\<<c-r><c-w>\\>/")
 -- Map("n", "<leader><leader>8", ":argdo %s/")
 -- Map("n", "<leader><leader>*", "yiw :argdo %s/<C-r>0/")
-Map("n", "<leader>.8", ":.s/")
-Map("n", "<leader>.*", "yiw :.s/<C-r>0/")
 
 Map("n", "<leader>-", ":!")
 Map("n", "<leader><leader>k", ":sp | hor resize 10 | term<CR> A")
@@ -223,14 +213,14 @@ Map("n", "<leader><leader>k", ":sp | hor resize 10 | term<CR> A")
 -- 	end
 -- end
 
-Map("n", "<leader>oc", "<cmd>lua require('obsidian').util.toggle_checkbox()<CR>", { desc = "Obsidian Check Checkbox" })
-Map("n", "<leader>ot", "<cmd>ObsidianTemplate<CR>", { desc = "Insert Obsidian Template" })
-Map("n", "<leader>oo", "<cmd>ObsidianOpen<CR>", { desc = "Open in Obsidian App" })
-Map("n", "<leader>ob", "<cmd>ObsidianBacklinks<CR>", { desc = "Show ObsidianBacklinks" })
-Map("n", "<leader>ol", "<cmd>ObsidianLinks<CR>", { desc = "Show ObsidianLinks" })
-Map("n", "<leader>on", "<cmd>ObsidianNew<CR>", { desc = "Create New Note" })
-Map("n", "<leader>os", "<cmd>ObsidianSearch<CR>", { desc = "Search Obsidian" })
-Map("n", "<leader>oq", "<cmd>ObsidianQuickSwitch<CR>", { desc = "Quick Switch" })
+-- Map("n", "<leader>oc", "<cmd>lua require('obsidian').util.toggle_checkbox()<CR>", { desc = "Obsidian Check Checkbox" })
+-- Map("n", "<leader>ot", "<cmd>ObsidianTemplate<CR>", { desc = "Insert Obsidian Template" })
+-- Map("n", "<leader>oo", "<cmd>ObsidianOpen<CR>", { desc = "Open in Obsidian App" })
+-- Map("n", "<leader>ob", "<cmd>ObsidianBacklinks<CR>", { desc = "Show ObsidianBacklinks" })
+-- Map("n", "<leader>ol", "<cmd>ObsidianLinks<CR>", { desc = "Show ObsidianLinks" })
+-- Map("n", "<leader>on", "<cmd>ObsidianNew<CR>", { desc = "Create New Note" })
+-- Map("n", "<leader>os", "<cmd>ObsidianSearch<CR>", { desc = "Search Obsidian" })
+-- Map("n", "<leader>oq", "<cmd>ObsidianQuickSwitch<CR>", { desc = "Quick Switch" })
 
 Map("n", "<leader>so", function()
 	vim.cmd("so")
@@ -243,7 +233,7 @@ Map({ "n", "v" }, "gg", "gg0")
 Map("n", "d,", "d$")
 Map("n", "c,", "c$")
 Map("n", "y,", "y$")
-Map({ "x" }, ",", "$")
+Map({ "x", "v" }, ",", "$")
 
 Map("n", "<leader>fe", "<cmd>Neotree toggle<cr>")
 Map("n", "<leader>vo", ":MaximizerToggle<CR>")
@@ -279,17 +269,5 @@ end)
 -- Map("i", "", "<cmd>lua vim.lsp.buf.completion()<CR>")
 Map("i", "<C-Y>", "<C-X><C-O>")
 
--- vim.keymap.set("n", "n", function(nm
--- 	if vim.v.searchforward == 1 then
--- 		return "n"
--- 	else
--- 		return "N"
--- 	end
--- end, { expr = true })
--- vim.keymap.set("n", "N", function()
--- 	if vim.v.searchforward == 1 then
--- 		return "N"
--- 	else
--- 		return "n"
--- 	end
--- end, { expr = true })
+Map("n", "N", [[v:searchforward ? 'N' : 'n']], { expr = true })
+Map("n", "n", [[v:searchforward ? 'n' : 'N']], { expr = true })

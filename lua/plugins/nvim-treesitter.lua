@@ -90,8 +90,8 @@ return {
 						enable = true,
 						lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
 						keymaps = {
-							["ic"] = "@call.inner",
-							["ac"] = "@call.outer",
+							["ia"] = "@call.inner",
+							["aa"] = "@call.outer",
 							["iB"] = "@block.inner",
 							["aB"] = "@block.outer",
 							["if"] = "@function.inner",
