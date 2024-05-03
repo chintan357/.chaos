@@ -6,7 +6,6 @@ function Map(mode, lhs, rhs, opts)
 	vim.keymap.set(mode, lhs, rhs, options)
 end
 
-Map("n", "<leader>qb", ":bd<CR>")
 Map("n", "<leader>qq", ":q!<CR>")
 Map("n", "<leader>Q", ":qa!<CR>")
 
@@ -52,26 +51,47 @@ Map("n", "<M-o>", ":lua MiniFiles.open()<CR>")
 -- end)
 
 -- stylua: ignore start
-Map("n", "<leader>bp", "<cmd>lua require'dap'.toggle_breakpoint()<cr>")
-Map("n", "<leader>B", "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<cr>")
-Map("n", "<leader>bm", "<cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<cr>")
-Map("n", "<leader>bc", "<cmd>lua require'dap'.clear_breakpoints()<cr>")
-Map("n", "<leader>bl", "<cmd>Telescope dap list_breakpoints<cr>")
--- 2 3 4 9 10 11 (or rebind to ipdb style)
-Map("n", "<F2>", "<cmd>lua require'dap'.step_back()<cr>")
-Map("n", "<F3>", "<cmd>lua require'dap'.step_into()<cr>")
-Map("n", "<F4>", "<cmd>lua require'dap'.continue()<cr>")
-Map("n", "<F9>", "<cmd>lua require'dap'.step_over()<cr>")
-Map("n", "<F10>", "<cmd>lua require'dap'.step_out()<cr>")
--- Map("n", "<leader>dc", "<cmd>DapContinue<CR>", { desc = "Start Debugging" })
-Map("n", "<leader>dd", function() require("dap").disconnect() require("dapui").close() end)
-Map("n", "<leader>dt", function() require("dap").terminate() require("dapui").close() end)
-Map("n", "<leader>dr", "<cmd>lua require'dap'.repl.toggle()<cr>")
-Map("n", "<leader>dl", "<cmd>lua require'dap'.run_last()<cr>")
-Map("n", "<leader>du", function() require("dap.ui.widgets").hover() end)
-Map("n", "<leader>d?", function() local widgets = require("dap.ui.widgets") widgets.centered_float(widgets.scopes) end)
+vim.keymap.set("n", "di", function() require("dap").continue() end)
+vim.keymap.set("n", "<F10>", function() require("dap").step_over() end)
+vim.keymap.set("n", "<F11>", function() require("dap").step_into() end)
+vim.keymap.set("n", "<F12>", function() require("dap").step_out() end)
+
+vim.keymap.set("n", "<Leader>bp", function() require("dap").toggle_breakpoint() end)
+vim.keymap.set("n", "<Leader>bm", function() require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: ")) end)
+vim.keymap.set("n", "<Leader>B", function() require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: ")) end)
+vim.keymap.set("n", "<Leader>E", function() require("dap").set_exception_breakpoints() end)
+vim.keymap.set("n", "<Leader>bc", function() require("dap").clear_breakpoints() end)
+
+-- vim.keymap.set("n", "<Leader>dr", function() require("dap").repl.toggle() end)
+vim.keymap.set("n", "<Leader>dl", function() require("dap").run_last() end)
+vim.keymap.set({ "n", "v" }, "<Leader>dh", function() require("dap.ui.widgets").hover() end)
+vim.keymap.set({ "n", "v" }, "<Leader>dp", function() require("dap.ui.widgets").preview() end)
+-- vim.keymap.set("n", "<Leader>df", function() local widgets = require("dap.ui.widgets") widgets.centered_float(widgets.frames) end)
+vim.keymap.set("n", "<Leader>d?", function() local widgets = require("dap.ui.widgets") widgets.centered_float(widgets.scopes) end)
+
 Map("n", "<leader>df", "<cmd>Telescope dap frames<cr>")
 Map("n", "<leader>dc", "<cmd>Telescope dap commands<cr>")
+Map("n", "<leader>bl", "<cmd>Telescope dap list_breakpoints<cr>")
+
+Map("n", "<leader>du", function() require("dapui").toggle() end)
+Map("n", "<leader>dd", function() require("dap").disconnect() require("dapui").close() end)
+Map("n", "<leader>dt", function() require("dap").terminate() require("dapui").close() end)
+
+-- Map("n", "<leader>dw", "<Cmd>lua require('dapui').float_element('watches')<CR>")
+Map("n", "<leader>do", "<Cmd>lua require('dapui').float_element('scopes')<CR>")
+-- Map( "n", "<leader>di", "<Cmd>lua require('dapui').float_element('stacks')<CR>" )
+Map({ "v", "n" }, "<M-k>", "<Cmd>lua require('dapui').eval()<CR>")
+Map( "n", "<leader>dr", "<cmd>lua require'dapui'.float_element('repl', { width = 100, height = 40, enter = true })<CR>", { desc = "Show DAP REPL" })
+Map( "n", "<leader>ds", "<cmd>lua require'dapui'.float_element('scopes', { width = 150, height = 50, enter = true })<CR>", { desc = "Show DAP Scopes" })
+Map( "n", "<leader>dS", "<cmd>lua require'dapui'.float_element('stacks', { width = 150, height = 50, enter = true })<CR>", { desc = "Show DAP Stacks" })
+-- Map( "n", "<leader>db", "<cmd>lua require'dapui'.float_element('breakpoints', { enter = true })<CR>", { desc = "Show DAP breakpoints" })
+
+vim.cmd([[
+nnoremap <silent> <leader>dm :lua require('dap-python').test_method()<CR>
+nnoremap <silent> <leader>dC :lua require('dap-python').test_class()<CR>
+vnoremap <silent> <leader>ds <ESC>:lua require('dap-python').debug_selection()<CR>
+]])
+
 -- Run Tests
 -- Map("n", "<leader>t", "<cmd>lua require('neotest').run.run()<CR>", { desc = "Run Test" })
 -- Map( "n", "<leader>tf", "<cmd>lua require('neotest').run.run(vim.fn.expand('%'))<CR>", { desc = "Run Test File" })
@@ -79,11 +99,6 @@ Map("n", "<leader>dc", "<cmd>Telescope dap commands<cr>")
 -- Map( "n", "<leader>tp", "<cmd>lua require('neotest').output_panel.toggle()<CR>", { desc = "Toggle Test Output Panel" })
 -- Map("n", "<leader>tl", "<cmd>lua require('neotest').run.run_last()<CR>", { desc = "Run Last Test" })
 -- Map("n", "<leader>ts", "<cmd>lua require('neotest').summary.toggle()<CR>", { desc = "Toggle Test Summary" })
--- Map( "n", "<leader>E", "<cmd>lua require'dap'.set_exception_breakpoints()<CR>", { desc = "Toggle Exception Breakpoint" })
--- Map( "n", "<leader>dr", "<cmd>lua require'dapui'.float_element('repl', { width = 100, height = 40, enter = true })<CR>", { desc = "Show DAP REPL" })
--- Map( "n", "<leader>ds", "<cmd>lua require'dapui'.float_element('scopes', { width = 150, height = 50, enter = true })<CR>", { desc = "Show DAP Scopes" })
--- Map( "n", "<leader>df", "<cmd>lua require'dapui'.float_element('stacks', { width = 150, height = 50, enter = true })<CR>", { desc = "Show DAP Stacks" })
--- Map( "n", "<leader>db", "<cmd>lua require'dapui'.float_element('breakpoints', { enter = true })<CR>", { desc = "Show DAP breakpoints" })
 
 -- stylua: ignore end
 
@@ -100,9 +115,8 @@ Map("n", "U", "<C-r>", {})
 -- Discovered it when using vim-forgit https://github.com/ray-x/forgit.nvim/issues/1
 -- vim.opt.shellcmdflag = "-ic"
 
--- TODO: change the chars
--- vim.opt.listchars = "tab:>-,eol:$,nbsp:X,trail:#"
 -- Map("n", "<leader>ul", ":set list!<cr>")
+
 -- TODO: revert back to original position
 -- Map("n", "<leader>yG", ":keepjumps normal! ggyG<cr>", defaults)
 -- Map("n", "<leader>dG", ":keepjumps normal! ggdG", defaults)
@@ -144,8 +158,8 @@ local diagnostic_goto = function(next, severity)
 	end
 end
 -- map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
-Map("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
-Map("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
+-- Map("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
+-- Map("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
 Map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
 Map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
 
@@ -241,6 +255,9 @@ Map("n", "<leader>vo", ":MaximizerToggle<CR>")
 Map("n", "<leader>gb", ":GitBlameToggle<CR>")
 Map("n", "<leader>ut", ":TagbarToggle<CR>")
 Map("n", "<leader>uc", "<cmd>ChatGPT<cr>")
+Map("n", "<leader>uC", function()
+	require("CopilotChat").toggle()
+end)
 Map("n", "<leader>uw", "<cmd>lua local wrap_enabled = not vim.wo.wrap vim.wo.wrap = wrap_enabled<CR>")
 Map(
 	"n",

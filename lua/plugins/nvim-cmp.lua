@@ -27,6 +27,7 @@ return {
 			-- https://github.com/hrsh7th/cmp-cmdline
 			"hrsh7th/cmp-cmdline",
 			"onsails/lspkind.nvim",
+			"rcarriga/cmp-dap",
 		},
 		config = function()
 			local cmp = require("cmp")
@@ -36,6 +37,9 @@ return {
 			luasnip.config.setup({})
 
 			cmp.setup({
+				enabled = function()
+					return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt" or require("cmp_dap").is_dap_buffer()
+				end,
 				snippet = {
 					expand = function(args)
 						luasnip.lsp_expand(args.body)
@@ -65,8 +69,8 @@ return {
 				mapping = cmp.mapping.preset.insert({
 					["<C-n>"] = cmp.mapping.select_next_item(),
 					["<C-p>"] = cmp.mapping.select_prev_item(),
-					["<C-b>"] = cmp.mapping.scroll_docs(-4),
-					["<C-f>"] = cmp.mapping.scroll_docs(4),
+					["<C-f>"] = cmp.mapping.scroll_docs(-4),
+					["<C-b>"] = cmp.mapping.scroll_docs(4),
 					["<C-A"] = cmp.mapping.complete({}),
 					["<CR>"] = cmp.mapping.confirm({
 						behavior = cmp.ConfirmBehavior.Replace,
@@ -98,6 +102,11 @@ return {
 					{ name = "buffer" },
 					{ name = "path" },
 				}),
+			})
+			cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
+				sources = {
+					{ name = "dap" },
+				},
 			})
 		end,
 	},

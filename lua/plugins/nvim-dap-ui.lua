@@ -6,15 +6,16 @@ return {
 		-- https://github.com/mfussenegger/nvim-dap
 		"mfussenegger/nvim-dap",
 		-- https://github.com/theHamsta/nvim-dap-virtual-text
-		"theHamsta/nvim-dap-virtual-text", -- inline variable text while debugging
+		"theHamsta/nvim-dap-virtual-text",
 		-- https://github.com/nvim-telescope/telescope-dap.nvim
-		"nvim-telescope/telescope-dap.nvim", -- telescope integration with dap
+		"nvim-telescope/telescope-dap.nvim",
 		"nvim-neotest/nvim-nio",
+		"LiadOz/nvim-dap-repl-highlights",
 	},
 	opts = {
 		controls = {
 			element = "repl",
-			enabled = false,
+			enabled = true,
 			icons = {
 				disconnect = "",
 				pause = "",
@@ -87,23 +88,28 @@ return {
 		},
 	},
 	config = function(_, opts)
-		local dap = require("dap")
 		require("dapui").setup(opts)
+		local dap, dapui = require("dap"), require("dapui")
 
-		dap.listeners.after.event_initialized["dapui_config"] = function()
-			require("dapui").open()
+		dap.listeners.before.attach.dapui_config = function()
+			dapui.open()
+		end
+		dap.listeners.before.launch.dapui_config = function()
+			dapui.open()
+		end
+		dap.listeners.before.event_terminated.dapui_config = function()
+			dapui.close()
+		end
+		dap.listeners.before.event_exited.dapui_config = function()
+			dapui.close()
 		end
 
-		dap.listeners.before.event_terminated["dapui_config"] = function()
-			-- Commented to prevent DAP UI from closing when unit tests finish
-			-- require('dapui').close()
-		end
-
-		dap.listeners.before.event_exited["dapui_config"] = function()
-			-- Commented to prevent DAP UI from closing when unit tests finish
-			-- require('dapui').close()
-		end
-
+		-- require("dapui").float_element(<element ID>, <optional settings>)
+		-- width: number Width of the window
+		-- height: number Height of the window
+		-- enter: boolean Enter the floating window
+		-- position: string Position of floating window. center or nil
+		--
 		-- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation
 		-- dap.configurations.xxxxxxxxxx = {
 		--   {

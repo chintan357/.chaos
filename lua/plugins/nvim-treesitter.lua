@@ -58,11 +58,13 @@ return {
 			-- vim.keymap.set({ "n", "x", "o" }, "]h", next_hunk_repeat)
 			-- vim.keymap.set({ "n", "x", "o" }, "[h", prev_hunk_repeat)
 			--
+			require("nvim-dap-repl-highlights").setup()
 			require("nvim-treesitter.configs").setup({
 				highlight = { enable = true },
 				indent = { enable = true },
 				auto_install = true, -- automatically install syntax support when entering new file type buffer
 				ensure_installed = {
+					"dap_repl",
 					"python",
 					"yaml",
 					"javascript",

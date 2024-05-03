@@ -12,7 +12,7 @@ return {
 
 	opts = {
 		-- create_autocmd = false,
-		-- show_dirname = false,
+		show_dirname = false,
 		-- show_basename = true,
 		-- show_navic = true,
 		-- exclude_filetypes = {""},

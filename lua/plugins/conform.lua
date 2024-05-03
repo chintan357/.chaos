@@ -23,7 +23,7 @@ return { -- Autoformat
 		end,
 		formatters_by_ft = {
 			lua = { "stylua" },
-			python = { "isort", "black" },
+			python = { "black" },
 			typescript = { { "prettierd", "prettier" } },
 			json = { { "prettierd", "prettier" } },
 			graphql = { { "prettierd", "prettier" } },

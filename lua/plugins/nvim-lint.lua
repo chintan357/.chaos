@@ -11,7 +11,6 @@ return {
 			python = {
 				"ruff",
 			},
-			markdown = { "markdownlint" },
 		}
 
 		-- Automatically run linters after saving.  Use "InsertLeave" for more aggressive linting.
