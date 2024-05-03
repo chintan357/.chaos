@@ -125,11 +125,9 @@ opt.foldlevel = 20
 opt.foldmethod = "expr"
 opt.foldexpr = "nvim_treesitter#foldexpr()"
 
--- vim.g.markdown_recommended_style = 0
-
 vim.cmd([[ set guicursor=n-v-c-i:block ]])
 
--- vim.opt.guicursor = ""
+-- vim.g.markdown_recommended_style = 0
 -- vim.opt.isfname:append("@-@")
 
 vim.opt.wildoptions = { "pum", "tagfile" }

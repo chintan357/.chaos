@@ -97,10 +97,10 @@ return {
 				}),
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
-					{ name = "luasnip" },
-					-- { name = "jupyter" },
-					{ name = "buffer" },
 					{ name = "path" },
+					{ name = "luasnip" },
+					{ name = "buffer" },
+					-- { name = "jupyter" },
 				}),
 			})
 			cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {

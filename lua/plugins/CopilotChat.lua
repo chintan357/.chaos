@@ -45,7 +45,7 @@ return {
 			show_folds = true,
 			show_help = false,
 			auto_follow_cursor = true,
-			auto_insert_mode = true,
+			auto_insert_mode = false,
 			clear_chat_on_new_prompt = false,
 			question_header = "👤",
 			answer_header = "🤖",

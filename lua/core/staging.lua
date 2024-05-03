@@ -1,9 +1,9 @@
 --\| hor resize 10 \| term
 
-function M.ghline()
-	map("", "<Leader>gO", "<Plug>(gh-repo)", {})
-	map("", "<Leader>gL", "<Plug>(gh-line)", {})
-end
+-- function M.ghline()
+-- 	map("", "<Leader>gO", "<Plug>(gh-repo)", {})
+-- 	map("", "<Leader>gL", "<Plug>(gh-line)", {})
+-- end
 
 -- vim.keymap.set("n", "<leader>a", function()
 -- 	vim.cmd("Rg")

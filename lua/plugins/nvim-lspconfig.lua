@@ -17,7 +17,9 @@ return {
 	},
 	config = function()
 		vim.api.nvim_create_autocmd("LspAttach", {
+
 			group = vim.api.nvim_create_augroup("atomic-lsp-attach", { clear = true }),
+
 			callback = function(event)
 				local map = function(keys, func, desc)
 					vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
@@ -35,6 +37,7 @@ return {
 				map("K", vim.lsp.buf.hover, "Hover Documentation")
 
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
+
 				if client and client.server_capabilities.documentHighlightProvider then
 					local highlight_augroup = vim.api.nvim_create_augroup("atomic-lsp-highlight", { clear = false })
 					vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
@@ -86,12 +89,7 @@ return {
 					},
 				},
 			},
-			-- clangd = {},
-			-- gopls = {},
 			-- pyright = {},
-			-- rust_analyzer = {},
-			-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-			-- tsserver = {},
 		}
 		require("mason").setup()
 
@@ -128,16 +126,17 @@ return {
 				end,
 			},
 		})
-		--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
-		-- Globally configure all LSP floating preview popups (like hover, signature help, etc)
-		-- local open_floating_preview = vim.lsp.util.open_floating_preview
-		-- function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
-		-- 	opts = opts or {}
-		-- 	opts.border = opts.border or "rounded" -- Set border to rounded
-		-- 	return open_floating_preview(contents, syntax, opts, ...)
-		-- end
 	end,
 }
+-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
+--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+-- Globally configure all LSP floating preview popups (like hover, signature help, etc)
+-- local open_floating_preview = vim.lsp.util.open_floating_preview
+-- function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+-- 	opts = opts or {}
+-- 	opts.border = opts.border or "rounded" -- Set border to rounded
+-- 	return open_floating_preview(contents, syntax, opts, ...)
+-- end
 -- There is an issue with mason-tools-installer running with VeryLazy, since it triggers on VimEnter which has already occurred prior to this plugin loading so we need to call install explicitly
 -- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim/issues/39
 
