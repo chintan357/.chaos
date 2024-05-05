@@ -14,6 +14,7 @@ return {
 		},
 		{ "nvim-telescope/telescope-ui-select.nvim" },
 		{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
+		"debugloop/telescope-undo.nvim",
 	},
 	config = function()
 		local actions = require("telescope.actions")
@@ -38,6 +39,22 @@ return {
 
 		require("telescope").setup({
 			defaults = {
+				prompt_prefix = "  ",
+				-- selection_strategy = "reset",
+				layout_strategy = "horizontal",
+				layout_config = {
+					horizontal = {
+						preview_width = 0.55,
+						results_width = 0.8,
+					},
+					vertical = {
+						mirror = false,
+					},
+					width = 0.87,
+					height = 0.80,
+					preview_cutoff = 120,
+				},
+				path_display = { "truncate" },
 				vimgrep_arguments = vimgrep_arguments,
 				mappings = {
 					i = {
@@ -76,11 +93,19 @@ return {
 				["ui-select"] = {
 					require("telescope.themes").get_dropdown(),
 				},
+				undo = {
+					use_delta = true,
+					side_by_side = false,
+				},
 			},
 		})
 
 		pcall(require("telescope").load_extension, "fzf")
 		pcall(require("telescope").load_extension, "ui-select")
+
+		require("telescope").load_extension("undo")
+		vim.keymap.set("n", "<leader>tu", "<cmd>Telescope undo<cr>")
+
 
 		-- stylua: ignore start
 		keymap.set("n", "<leader>sh", builtin.help_tags)
@@ -108,7 +133,7 @@ return {
 
 		keymap.set("n", "<leader>ic", require("telescope.builtin").lsp_incoming_calls)
 		keymap.set("n", "<leader>oc", require("telescope.builtin").lsp_outgoing_calls)
-		keymap.set("n", "<leader>ref", require("telescope.builtin").lsp_references)
+		keymap.set("n", "<leader>re", require("telescope.builtin").lsp_references)
 		keymap.set("n", "<leader>sd", function() builtin.diagnostics({ bufnr = 0 }) end)
 		keymap.set("n", "<leader>sD", require("telescope.builtin").diagnostics)
 
@@ -125,7 +150,7 @@ return {
 		-- builtin.git_stash
 		-- builtin.vimoptions
 
-		keymap.set("n", "<leader>fv", require("telescope.builtin").treesitter)
+		keymap.set("n", "<leader>tt", require("telescope.builtin").treesitter)
 		keymap.set("n", "<leader>fm", function() require("telescope.builtin").treesitter({ default_text = ":method:" }) end)
 
 		keymap.set("n", "<leader>fw", builtin.grep_string)

@@ -44,35 +44,9 @@ return {
 		vim.keymap.set("n", "<F12>", function() require("dap").step_out() end)
 
 		vim.keymap.set("n", "<Leader>dl", function() require("dap").run_last() end)
-		vim.keymap.set({ "n", "v" }, "<Leader>dh", function() require("dap.ui.widgets").hover() end)
-		vim.keymap.set({ "n", "v" }, "<Leader>dp", function() require("dap.ui.widgets").preview() end)
-		vim.keymap.set("n", "<Leader>d?", function() local widgets = require("dap.ui.widgets") widgets.centered_float(widgets.scopes) end)
 
-		Map("n", "<leader>du", function() require("dapui").toggle() end)
-		Map("n", "<leader>dd", function() require("dap").disconnect() require("dapui").close() end)
-		Map("n", "<leader>dt", function() require("dap").terminate() require("dapui").close() end)
-
-		Map("n", "<leader>df", "<cmd>Telescope dap frames<cr>")
-		Map("n", "<leader>dc", "<cmd>Telescope dap commands<cr>")
-		Map("n", "<leader>bl", "<cmd>Telescope dap list_breakpoints<cr>")
-
-		-- Map("n", "<leader>dw", "<Cmd>lua require('dapui').float_element('watches')<CR>")
-		-- Map( "n", "<leader>di", "<Cmd>lua require('dapui').float_element('stacks')<CR>" )
-		Map("n", "<leader>do", "<Cmd>lua require('dapui').float_element('scopes')<CR>")
-		Map({ "v", "n" }, "<M-k>", "<Cmd>lua require('dapui').eval()<CR>")
-		Map( "n", "<leader>dr", "<cmd>lua require'dapui'.float_element('repl', { width = 100, height = 40, enter = true })<CR>", { desc = "Show DAP REPL" })
-		Map( "n", "<leader>ds", "<cmd>lua require'dapui'.float_element('scopes', { width = 150, height = 50, enter = true })<CR>", { desc = "Show DAP Scopes" })
-		Map( "n", "<leader>dS", "<cmd>lua require'dapui'.float_element('stacks', { width = 150, height = 50, enter = true })<CR>", { desc = "Show DAP Stacks" })
-		-- Map( "n", "<leader>db", "<cmd>lua require'dapui'.float_element('breakpoints', { enter = true })<CR>", { desc = "Show DAP breakpoints" })
-
-		vim.cmd([[
-		nnoremap <silent> <leader>dm :lua require('dap-python').test_method()<CR>
-		nnoremap <silent> <leader>dC :lua require('dap-python').test_class()<CR>
-		vnoremap <silent> <leader>ds <ESC>:lua require('dap-python').debug_selection()<CR>
-		]])
 		--
 		-- stylua: ignore start
-		-- vim.keymap.set("n", "<Leader>df", function() local widgets = require("dap.ui.widgets") widgets.centered_float(widgets.frames) end)
 		-- vim.keymap.set("n", "<Leader>dr", function() require("dap").repl.toggle() end)
 
 		-- Run Tests
@@ -83,21 +57,5 @@ return {
 		-- Map("n", "<leader>tl", "<cmd>lua require('neotest').run.run_last()<CR>", { desc = "Run Last Test" })
 		-- Map("n", "<leader>ts", "<cmd>lua require('neotest').summary.toggle()<CR>", { desc = "Toggle Test Summary" })
 		-- keymap.set("n", "<leader>go", function()
-		-- 	if vim.bo.filetype == "python" then
-		-- 		vim.api.nvim_command("PyrightOrganizeImports")
-		-- 	end
-		-- end)
-
-		-- keymap.set("n", "<leader>tc", function()
-		-- 	if vim.bo.filetype == "python" then
-		-- 		require("dap-python").test_class()
-		-- 	end
-		-- end)
-
-		-- keymap.set("n", "<leader>tm", function()
-		-- 	if vim.bo.filetype == "python" then
-		-- 		require("dap-python").test_method()
-		-- 	end
-		-- end)
 	end,
 }

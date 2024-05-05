@@ -31,8 +31,8 @@ return {
 			border_right_sign = "",
 			max_line_length = 120,
 			sessions_window = {
-				active_sign = "  ",
-				inactive_sign = "  ",
+				active_sign = " ✌️ ",
+				inactive_sign = " 👎 ",
 				current_line_sign = "",
 				border = {
 					style = "rounded",

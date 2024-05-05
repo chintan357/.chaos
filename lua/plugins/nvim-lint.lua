@@ -11,6 +11,8 @@ return {
 			python = {
 				"ruff",
 			},
+			-- markdown = { "markdownlint" },
+			-- ["*"] = { "cspell", "codespell" },
 		}
 
 		-- Automatically run linters after saving.  Use "InsertLeave" for more aggressive linting.

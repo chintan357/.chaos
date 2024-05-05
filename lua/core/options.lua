@@ -3,8 +3,14 @@ local opt = vim.opt
 opt.relativenumber = true
 opt.number = true
 
-opt.updatetime = 100
+opt.timeout = true
 opt.timeoutlen = 423
+opt.ttimeout = true
+opt.timeoutlen = 500
+opt.updatetime = 100
+opt.ttimeoutlen = 10
+
+opt.history = 9999
 
 opt.inccommand = "split"
 opt.incsearch = true
@@ -12,12 +18,10 @@ opt.hlsearch = true
 
 opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
-opt.history = 9999
 opt.hidden = true
 opt.ttyfast = true
 opt.shell = "/bin/bash"
 opt.viminfo:append({ "!" })
-
 opt.langnoremap = false
 
 opt.autoread = true
@@ -28,30 +32,31 @@ opt.tabstop = 2
 opt.softtabstop = 2
 opt.expandtab = true
 
+opt.ignorecase = true
+opt.smartcase = true
+
 opt.autoindent = true
 opt.smartindent = true
 opt.smarttab = true
 
 opt.cmdheight = 0
-vim.opt.cmdwinheight = 1
-vim.opt.colorcolumn = "80"
+opt.cmdwinheight = 1
+opt.colorcolumn = "80"
 
 opt.wrap = false
-
-opt.ignorecase = true
-opt.smartcase = true
 
 opt.scrollbind = false
 opt.cursorbind = false
 opt.cursorline = true
 
-opt.ruler = true
+opt.ruler = false
 opt.textwidth = 79
 
 opt.termguicolors = true
 opt.background = "dark"
-
 opt.signcolumn = "yes"
+opt.conceallevel = 2
+opt.linebreak = false
 
 opt.backspace = "indent,eol,start"
 
@@ -61,10 +66,6 @@ opt.splitright = true
 opt.splitbelow = true
 
 opt.iskeyword:append("-")
-
-opt.conceallevel = 2
-opt.linebreak = false
-
 opt.confirm = true
 
 opt.formatoptions = "jcroqlnt" -- tcqj
@@ -87,7 +88,7 @@ opt.sidescrolloff = 3
 opt.scrolloff = 10
 
 -- opt.spelllang = { "en" }
--- opt.splitkeep = "screen"
+opt.splitkeep = "screen"
 
 opt.undofile = true
 opt.undodir = vim.fn.expand("~/.vim/undodir")
@@ -108,15 +109,6 @@ opt.title = false
 opt.showmode = false
 opt.showtabline = 0
 opt.laststatus = 3
-
--- opt.fillchars = {
---   foldopen = "",
---   foldclose = "",
---   fold = " ",
---   foldsep = " ",
---   diff = "╱",
---   eob = " ",
--- }
 
 opt.smoothscroll = true
 
@@ -159,3 +151,54 @@ vim.opt.wildignore:append({
 	"*\\tmp\\*",
 	"*.exe",
 })
+
+--------------------------
+
+opt.magic = true
+opt.wildignorecase = true
+
+opt.redrawtime = 1500
+opt.infercase = true
+
+-- if vim.fn.executable("rg") == 1 then
+-- 	opt.grepformat = "%f:%l:%c:%m,%f:%l:%m"
+-- 	opt.grepprg = "rg --vimgrep --no-heading --smart-case"
+-- end
+
+-- opt.shortmess = "aoOTIcF"
+-- opt.foldlevelstart = 99
+opt.winwidth = 30
+opt.showcmd = false
+
+--eol:¬
+opt.winblend = 0
+-- opt.spelloptions = "camel"
+
+-- local function get_signs(name)
+-- 	return function()
+-- 		local bufnr = vim.api.nvim_win_get_buf(vim.g.statusline_winid)
+-- 		local it = vim.iter(api.nvim_buf_get_extmarks(bufnr, -1, 0, -1, { details = true, type = "sign" }))
+-- 			:find(function(item)
+-- 				return item[2] == vim.v.lnum - 1 and item[4].sign_hl_group and item[4].sign_hl_group:find(name)
+-- 			end)
+-- 		return not it and "  " or "%#" .. it[4].sign_hl_group .. "#" .. it[4].sign_text .. "%*"
+-- 	end
+-- end
+--
+-- function _G.show_stc()
+-- 	local stc_diagnostic = get_signs("Diagnostic")
+-- 	local stc_gitsign = get_signs("GitSign")
+--
+-- 	local function show_break()
+-- 		if vim.v.virtnum > 0 then
+-- 			return (" "):rep(math.floor(math.ceil(math.log10(vim.v.lnum))) - 1) .. "↳"
+-- 		elseif vim.v.virtnum < 0 then
+-- 			return ""
+-- 		else
+-- 			return vim.v.lnum
+-- 		end
+-- 	end
+-- 	return stc_diagnostic() .. "%=" .. show_break() .. stc_gitsign()
+-- end
+--
+-- vim.opt.stc = "%!v:lua.show_stc()"

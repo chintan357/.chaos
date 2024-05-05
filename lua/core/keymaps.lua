@@ -18,6 +18,8 @@ Map("n", "<leader>wd", "<C-W>c")
 Map("n", "<leader>s-", ":close<CR>")
 Map("n", "<leader>s=", "<C-w>=")
 
+Map("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
+
 Map("n", "<leader><tab>o", ":tabnew<CR>")
 Map("n", "<leader><tab>l", "<cmd>tabnext<cr>")
 Map("n", "<leader><tab>h", "<cmd>tabprevious<cr>")
@@ -33,11 +35,13 @@ Map("n", "<leader>cl", ":diffget 3<CR>") -- get diff from right (remote) during 
 Map("n", "<M-o>", ":lua MiniFiles.open()<CR>")
 Map("n", "<leader>qo", ":copen<CR>")
 
-Map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
-Map("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to Left Window" })
-Map("t", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Go to Lower Window" })
-Map("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to Upper Window" })
-Map("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to Right Window" })
+local opts = { buffer = 0 }
+vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], opts)
+vim.keymap.set("t", "<C-h>", [[<Cmd>wincmd h<CR>]], opts)
+vim.keymap.set("t", "<C-j>", [[<Cmd>wincmd j<CR>]], opts)
+vim.keymap.set("t", "<C-k>", [[<Cmd>wincmd k<CR>]], opts)
+vim.keymap.set("t", "<C-l>", [[<Cmd>wincmd l<CR>]], opts)
+vim.keymap.set("t", "<C-w>", [[<C-\><C-n><C-w>]], opts)
 
 vim.keymap.set("c", "<C-a>", "<Home>")
 vim.keymap.set("c", "<C-p>", "<Up>")
@@ -56,8 +60,6 @@ Map("n", "<C-u>", "<C-u>zz")
 Map("n", "<C-b>", "<C-b>zz")
 Map("n", "<C-f>", "<C-f>zz")
 
-Map("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
-
 Map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
 
 -- local diagnostic_goto = function(next, severity)
@@ -67,7 +69,6 @@ Map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
 -- 		go({ severity = severity })
 -- 	end
 -- end
-
 -- Map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 -- Map("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
 -- Map("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
@@ -134,11 +135,11 @@ end, { desc = "Toggle Treesitter Highlight" })
 Map("n", "<leader>yF", function() local filename = vim.fn.expand("%") local lineno = vim.fn.line(".") vim.fn.setreg("+", filename .. ":" .. lineno) end)
 Map("n", "<leader>yf", function() local filename = vim.fn.expand("%") vim.fn.setreg("+", filename) end)
 
--- Map("i", "", "<cmd>lua vim.lsp.buf.completion()<CR>")
+Map("i", "<C-S-Space>", "<cmd>lua vim.lsp.buf.completion()<CR>")
 Map("i", "<C-Y>", "<C-X><C-O>")
 
-Map("n", "N", [[v:searchforward ? 'N' : 'n']], { expr = true })
-Map("n", "n", [[v:searchforward ? 'n' : 'N']], { expr = true })
+Map("n", "N", [[v:searchforward ? 'Nzz' : 'nzz']], { expr = true })
+Map("n", "n", [[v:searchforward ? 'nzz' : 'Nzz']], { expr = true })
 
 -- keymap.set("n", "<leader>ss", ":setlocal spell! spelllang=en_us<CR>", { noremap = true })
 -- keymap.set("n", "<leader>sn", "]s", { noremap = true })
@@ -192,9 +193,8 @@ Map("n", "n", [[v:searchforward ? 'n' : 'N']], { expr = true })
 
 -- Map("n", "<leader>ul", ":set list!<cr>")
 
--- TODO: revert back to original position
--- Map("n", "<leader>yG", ":keepjumps normal! ggyG<cr>", defaults)
--- Map("n", "<leader>dG", ":keepjumps normal! ggdG", defaults)
+Map("n", "<leader>ya", ":keepjumps normal! maggyG`a<cr>")
+Map("n", "<leader>da", ":keepjumps normal! maggdG`a<cr>")
 
 -- Map("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
 -- vim.g.undotree_SetFocusWhenToggle = 0

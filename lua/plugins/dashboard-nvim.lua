@@ -3,6 +3,7 @@ return {
 	event = "VimEnter",
 	opts = function()
 		local logo = {
+			-- Each line represents a part of the logo
 			[[]],
 			[[]],
 			[[]],
@@ -17,8 +18,8 @@ return {
 			[[  ███████████ ███    ███ █████████ █████ █████ ████ █████  ]],
 			[[ ██████  █████████████████████ ████ █████ █████ ████ ██████ ]],
 			[[                                                                       ]],
+			-- End of logo
 		}
-
 		-- logo = string.rep("\n", 8) .. logo .. "\n\n"
 
 		local opts = {
@@ -37,12 +38,17 @@ return {
 						key = "c",
 					},
 					{
-						action = 'lua require("persistence").load()',
-						desc = " Restore Session",
+						action = 'lua require("persistence").load({last = true})',
+						desc = " Restore Last Session",
 						icon = " ",
 						key = "s",
 					},
-					{ action = "LazyExtras", desc = " Lazy Extras", icon = " ", key = "x" },
+					{
+						action = 'lua require("persistence").load()',
+						desc = " Restore Session",
+						icon = " ",
+						key = "S",
+					},
 					{ action = "Lazy", desc = " Lazy", icon = "󰒲 ", key = "l" },
 					{ action = "qa", desc = " Quit", icon = " ", key = "q" },
 				},

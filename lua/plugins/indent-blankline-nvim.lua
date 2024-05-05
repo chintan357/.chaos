@@ -1,36 +1,42 @@
+local exclude_filetypes = {
+	"help",
+	"dashboard",
+	"neotree",
+	"Trouble",
+	"trouble",
+	"lazy",
+	"mason",
+	"notify",
+	"toggleterm",
+}
 return {
 	{
 		"echasnovski/mini.indentscope",
-		version = false, -- wait till new 0.7.0 release to put it back on semver
+		version = "*",
 		event = "VeryLazy",
-		opts = {
-			-- symbol = "▏",
-			symbol = "│",
-			options = { try_as_border = true },
-		},
 		init = function()
 			vim.api.nvim_create_autocmd("FileType", {
-				pattern = {
-					"help",
-					"alpha",
-					"dashboard",
-					"neo-tree",
-					"Trouble",
-					"trouble",
-					"lazy",
-					"mason",
-					"notify",
-					"toggleterm",
-					"lazyterm",
-				},
+				pattern = exclude_filetypes,
 				callback = function()
 					vim.b.miniindentscope_disable = true
 				end,
 			})
 		end,
+		mapping = {
+			-- Textobjects
+			object_scope = "ii",
+			object_scope_with_border = "ai",
+			-- Motions (jump to respective border line; if not present - body line)
+			goto_top = "[i",
+			goto_bottom = "]i",
+		},
+		opts = {
+			symbol = "▏",
+			-- symbol = "│",
+		},
 	},
 	{
-		-- https://github.com/lukas-reineke/indent-blankline.nvim
+		-- 	-- https://github.com/lukas-reineke/indent-blankline.nvim
 		"lukas-reineke/indent-blankline.nvim",
 		event = "VeryLazy",
 		main = "ibl",
@@ -38,6 +44,9 @@ return {
 			enabled = true,
 			indent = {
 				char = "|",
+			},
+			exclude = {
+				filetypes = exclude_filetypes,
 			},
 		},
 	},
