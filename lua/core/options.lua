@@ -3,28 +3,17 @@ local opt = vim.opt
 opt.relativenumber = true
 opt.number = true
 
-opt.timeout = true
-opt.timeoutlen = 423
-opt.ttimeout = true
-opt.timeoutlen = 500
+opt.timeoutlen = 333
 opt.updatetime = 100
-opt.ttimeoutlen = 10
 
 opt.history = 9999
 
 opt.inccommand = "split"
-opt.incsearch = true
-opt.hlsearch = true
-
+opt.shell = "/bin/bash"
 opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
-opt.hidden = true
-opt.ttyfast = true
-opt.shell = "/bin/bash"
-opt.viminfo:append({ "!" })
-opt.langnoremap = false
+-- opt.langnoremap = false
 
-opt.autoread = true
 opt.autowrite = true
 
 opt.shiftwidth = 2
@@ -34,10 +23,7 @@ opt.expandtab = true
 
 opt.ignorecase = true
 opt.smartcase = true
-
-opt.autoindent = true
 opt.smartindent = true
-opt.smarttab = true
 
 opt.cmdheight = 0
 opt.cmdwinheight = 1
@@ -52,13 +38,13 @@ opt.cursorline = true
 opt.ruler = false
 opt.textwidth = 79
 
-opt.termguicolors = true
-opt.background = "dark"
+if vim.fn.exists("syntax_on") ~= 1 then
+	vim.cmd([[syntax enable]])
+end
+
 opt.signcolumn = "yes"
 opt.conceallevel = 2
-opt.linebreak = false
-
-opt.backspace = "indent,eol,start"
+opt.linebreak = true
 
 opt.clipboard:append("unnamedplus")
 
@@ -69,20 +55,22 @@ opt.iskeyword:append("-")
 opt.confirm = true
 
 opt.formatoptions = "jcroqlnt" -- tcqj
-opt.grepformat = "%f:%l:%c:%m"
 vim.o.errorformat = vim.o.errorformat .. ",%f:%l"
+opt.grepformat = "%f:%l:%c:%m"
 opt.grepprg = "rg --vimgrep"
+-- opt.formatoptions = "qjl1" -- Don't autoformat comments
 -- vim.opt.grepformat = "%f:%l:%c:%m,%f:%l:%m"
 -- opt.grepprg = "rg --vimgrep --no-heading"
 
 opt.completeopt = "menu,menuone,noselect"
 opt.pumblend = 10
 opt.pumheight = 10
+opt.winblend = 0
 
 opt.shiftround = true
 opt.numberwidth = 2
 
-opt.shortmess:append({ W = true, I = true, c = true, C = true })
+-- opt.shortmess:append({ W = true, I = true, c = true, C = true })
 
 opt.sidescrolloff = 3
 opt.scrolloff = 10
@@ -91,18 +79,20 @@ opt.scrolloff = 10
 opt.splitkeep = "screen"
 
 opt.undofile = true
-opt.undodir = vim.fn.expand("~/.vim/undodir")
 opt.undolevels = 1000
 opt.undoreload = 10000
 
-opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
-opt.wildmode = "longest:full,full"
+opt.virtualedit = "block"
 
 opt.modeline = false
 -- opt.modelines = 1
 
-opt.backup = false
-opt.writebackup = false
+opt.mouse = "a"
+
+vim.cmd("filetype plugin indent on")
+
+-- opt.backup = false
+-- opt.writebackup = false
 opt.swapfile = false
 
 opt.title = false
@@ -119,59 +109,48 @@ opt.foldexpr = "nvim_treesitter#foldexpr()"
 
 vim.cmd([[ set guicursor=n-v-c-i:block ]])
 
--- vim.g.markdown_recommended_style = 0
--- vim.opt.isfname:append("@-@")
-
-vim.opt.wildoptions = { "pum", "tagfile" }
-vim.opt.wildignore:append({
-	"*.docx",
-	"*.jpg",
-	"*.png",
-	"*.gif",
-	"*.pdf",
-	"*.pyc",
-	"*.flv",
-	"*.img",
-	"*.xlsx",
-	"*~",
-	"*.pyc",
-	"*/.git/*",
-	"*.o",
-	"*.obj",
-	"*.rbc",
-	"__pycache__",
-	"*swp",
-	"*.class",
-	"*.png",
-	"*.zip",
-	"*/tmp/*",
-	"*.o",
-	"*.obj",
-	"*.so",
-	"*\\tmp\\*",
-	"*.exe",
-})
-
---------------------------
-
+opt.wildmode = "longest:full,full"
 opt.magic = true
 opt.wildignorecase = true
+-- vim.opt.wildignore:append({
+-- 	"*.docx",
+-- 	"*.jpg",
+-- 	"*.png",
+-- 	"*.gif",
+-- 	"*.pdf",
+-- 	"*.pyc",
+-- 	"*.flv",
+-- 	"*.img",
+-- 	"*.xlsx",
+-- 	"*~",
+-- 	"*.pyc",
+-- 	"*/.git/*",
+-- 	"*.o",
+-- 	"*.obj",
+-- 	"*.rbc",
+-- 	"__pycache__",
+-- 	"*swp",
+-- 	"*.class",
+-- 	"*.png",
+-- 	"*.zip",
+-- 	"*/tmp/*",
+-- 	"*.o",
+-- 	"*.obj",
+-- 	"*.so",
+-- 	"*\\tmp\\*",
+-- 	"*.exe",
+-- })
+
+--------------------------
 
 opt.redrawtime = 1500
 opt.infercase = true
 
--- if vim.fn.executable("rg") == 1 then
--- 	opt.grepformat = "%f:%l:%c:%m,%f:%l:%m"
--- 	opt.grepprg = "rg --vimgrep --no-heading --smart-case"
--- end
-
--- opt.shortmess = "aoOTIcF"
 -- opt.foldlevelstart = 99
 opt.winwidth = 30
 opt.showcmd = false
 
 --eol:¬
-opt.winblend = 0
 -- opt.spelloptions = "camel"
 
 -- local function get_signs(name)
@@ -202,3 +181,13 @@ opt.winblend = 0
 -- end
 --
 -- vim.opt.stc = "%!v:lua.show_stc()"
+-- if vim.fn.executable("rg") == 1 then
+-- 	opt.grepformat = "%f:%l:%c:%m,%f:%l:%m"
+-- 	opt.grepprg = "rg --vimgrep --no-heading --smart-case"
+-- end
+
+-- opt.shortmess = "aoOTIcF"
+-- vim.g.markdown_recommended_style = 0
+-- vim.opt.isfname:append("@-@")
+-- opt.fillchars = "eob: " -- Don't show `~` outside of buffer
+-- opt.breakindent = true

@@ -1,4 +1,4 @@
-return { -- Autoformat
+return {
 	"stevearc/conform.nvim",
 	event = { "BufReadPre", "BufNewFile" },
 	lazy = false,
@@ -8,7 +8,7 @@ return { -- Autoformat
 			function()
 				require("conform").format({ async = true, lsp_fallback = true })
 			end,
-			mode = "",
+			mode = "n",
 			desc = "[F]ormat buffer",
 		},
 	},
@@ -24,17 +24,13 @@ return { -- Autoformat
 		formatters_by_ft = {
 			lua = { "stylua" },
 			python = { "black" },
-			typescript = { { "prettierd", "prettier" } },
 			json = { { "prettierd", "prettier" } },
-			graphql = { { "prettierd", "prettier" } },
 			markdown = { { "prettierd", "prettier" } },
-			-- erb = { "htmlbeautifier" },
 			-- html = { "htmlbeautifier" },
 			bash = { "beautysh" },
-			proto = { "buf" },
+			-- proto = { "buf" },
 			yaml = { "yamlfix" },
 			-- toml = { "taplo" },
-			css = { { "prettierd", "prettier" } },
 			sh = { { "shellcheck" } },
 			-- You can use a sub-list to tell conform to run *until* a formatter is found.
 			javascript = { { "prettierd", "prettier" } },

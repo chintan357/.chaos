@@ -8,6 +8,14 @@ return {
 	{ "tpope/vim-rhubarb" },
 	{ "junegunn/gv.vim" },
 	{
+		"f-person/git-blame.nvim",
+		event = "VeryLazy",
+		opts = {
+			enabled = false,
+			date_format = "%m/%d/%y %H:%M:%S",
+		},
+	},
+	{
 		"akinsho/git-conflict.nvim",
 		opts = {
 			highlights = {
@@ -18,20 +26,20 @@ return {
 		lazy = not is_inside_git_repo(),
 		keys = {
 			-- Chose conflict
-			{ "<leader>hci", "<cmd>GitConflictChooseTheirs<cr>", desc = "Git Conflict Choose - Incoming changes" },
-			{ "<leader>hcc", "<cmd>GitConflictChooseOurs<cr>", desc = "Git Conflict Choose - Current changes" },
-			{ "<leader>hcb", "<cmd>GitConflictChooseBoth<cr>", desc = "Git Conflict Choose - Both changes" },
+			{ "<leader>gci", "<cmd>GitConflictChooseTheirs<cr>", desc = "Git Conflict Choose - Incoming changes" },
+			{ "<leader>gcc", "<cmd>GitConflictChooseOurs<cr>", desc = "Git Conflict Choose - Current changes" },
+			{ "<leader>gcb", "<cmd>GitConflictChooseBoth<cr>", desc = "Git Conflict Choose - Both changes" },
 			-- Navigate conflicts
-			{ "<leader>hcq", "<cmd>GitConflictListQf<cr>", desc = "Git Conflict Quicklist" },
-			{ "<leader>hcp", "<cmd>GitConflictPrevConflict<cr>", desc = "Git Conflict Previous" },
-			{ "<leader>hcn", "<cmd>GitConflictNextConflict<cr>", desc = "Git Conflict Next" },
+			{ "<leader>gcq", "<cmd>GitConflictListQf<cr>", desc = "Git Conflict Quicklist" },
+			{ "<leader>gcp", "<cmd>GitConflictPrevConflict<cr>", desc = "Git Conflict Previous" },
+			{ "<leader>gcn", "<cmd>GitConflictNextConflict<cr>", desc = "Git Conflict Next" },
 		},
 	},
 	{
 		"sindrets/diffview.nvim",
 		lazy = not is_inside_git_repo(),
 		cmd = "DiffviewOpen",
-		keys = { { "<leader>gdv", "<cmd>DiffviewOpen<cr>", desc = "Open Git Diff" } },
+		keys = { { "gdv", "<cmd>DiffviewOpen<cr>", desc = "Open Git Diff" } },
 	},
 	{
 		"lewis6991/gitsigns.nvim",
@@ -55,17 +63,17 @@ return {
 				map("n", "]h", gs.next_hunk, "Next Hunk")
 				map("n", "[h", gs.prev_hunk, "Prev Hunk")
 
-				map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
-				map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
+				map({ "n", "v" }, "ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
+				map({ "n", "v" }, "ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
 
-				map("n", "<leader>ghS", gs.stage_buffer, "Stage Buffer")
-				map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
-				map("n", "<leader>ghU", gs.undo_stage_hunk, "Undo Stage Hunk")
+				map("n", "<leader>gS", gs.stage_buffer, "Stage Buffer")
+				map("n", "<leader>gR", gs.reset_buffer, "Reset Buffer")
+				map("n", "<leader>gU", gs.undo_stage_hunk, "Undo Stage Hunk")
 
-				map("n", "<leader>ghb", function()
+				map("n", "<leader>gL", function()
 					gs.blame_line({ full = true })
 				end, "Blame Line")
-				map("n", "<leader>ghd", gs.diffthis, "Diff This")
+				map("n", "<leader>gD", gs.diffthis, "Diff This")
 			end,
 		},
 	},

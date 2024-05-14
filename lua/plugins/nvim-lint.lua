@@ -9,7 +9,7 @@ return {
 		-- Additional linters can be found here: https://github.com/mfussenegger/nvim-lint#available-linters
 		require("lint").linters_by_ft = {
 			python = {
-				"ruff",
+				"pylint",
 			},
 			-- markdown = { "markdownlint" },
 			-- ["*"] = { "cspell", "codespell" },

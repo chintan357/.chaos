@@ -6,8 +6,9 @@ function Map(mode, lhs, rhs, opts)
 	vim.keymap.set(mode, lhs, rhs, options)
 end
 
-Map("n", "<leader>qq", ":q!<CR>")
-Map("n", "<leader>Q", ":qa!<CR>")
+Map("n", "<leader>q", ":bd<CR>")
+Map("n", "<leader>Q", ":q!<CR>")
+-- Map("n", "<leader>qQ", ":qa!<CR>")
 
 Map("n", "gx", ":!open <c-r><c-a><CR>")
 
@@ -28,11 +29,13 @@ Map("n", "<leader><tab>d", "<cmd>tabclose<cr>")
 Map("n", "==", "gg<S-v>G")
 Map("n", "J", "mzJ`z")
 
-Map("n", "<leader>cc", ":diffput<CR>") -- put diff from current to other during diff
+Map("n", "<leader>cp", ":diffput<CR>") -- put diff from current to other during diff
 Map("n", "<leader>ch", ":diffget 1<CR>") -- get diff from left (local) during merge
 Map("n", "<leader>cl", ":diffget 3<CR>") -- get diff from right (remote) during merge
 
-Map("n", "<M-o>", ":lua MiniFiles.open()<CR>")
+Map("n", "<M-o>", function()
+	require("oil").toggle_float()
+end)
 Map("n", "<leader>qo", ":copen<CR>")
 
 local opts = { buffer = 0 }
@@ -57,23 +60,22 @@ Map("v", ">", ">gv")
 
 Map("n", "<C-d>", "<C-d>zz")
 Map("n", "<C-u>", "<C-u>zz")
-Map("n", "<C-b>", "<C-b>zz")
-Map("n", "<C-f>", "<C-f>zz")
 
-Map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
+-- Map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
 
--- local diagnostic_goto = function(next, severity)
--- 	local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
--- 	severity = severity and vim.diagnostic.severity[severity] or nil
--- 	return function()
--- 		go({ severity = severity })
--- 	end
--- end
--- Map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
--- Map("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
--- Map("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
--- Map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
--- Map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
+local diagnostic_goto = function(next, severity)
+	local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+	severity = severity and vim.diagnostic.severity[severity] or nil
+	return function()
+		go({ severity = severity })
+	end
+end
+Map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+-- [e is also mapped inside vim-unimpaired
+Map("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
+Map("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
+Map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
+Map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
 
 vim.cmd("set whichwrap+=<,>,[,],h,l")
 
@@ -111,8 +113,8 @@ end, { desc = "Source current file" })
 
 Map("n", "<leader>mx", "<cmd>!chmod +x %<CR>", { silent = true, desc = "Make current file executable" })
 
-Map({ "n", "v" }, "G", "G$")
 Map({ "n", "v" }, "gg", "gg0")
+Map({ "n", "v" }, "G", "G$")
 Map("n", "d,", "d$")
 Map("n", "c,", "c$")
 Map("n", "y,", "y$")
@@ -122,15 +124,13 @@ Map({ "x", "v" }, ",", "$")
 Map("n", "<leader>fe", "<cmd>Neotree toggle<cr>")
 Map("n", "<leader>vo", ":MaximizerToggle<CR>")
 Map("n", "<leader>gb", ":GitBlameToggle<CR>")
-Map("n", "<leader>ut", ":TagbarToggle<CR>")
+
 Map("n", "<leader>uc", "<cmd>ChatGPT<cr>")
 Map("n", "<leader>uC", function() require("CopilotChat").toggle() end)
-Map("n", "<leader>uw", "<cmd>lua local wrap_enabled = not vim.wo.wrap vim.wo.wrap = wrap_enabled<CR>")
-Map( "n", "<leader>ud", "<cmd>lua if vim.diagnostic.is_enabled() then vim.diagnostic.disable() else vim.diagnostic.enable() end<CR>")
-Map("n", "<leader>uT", function()
-	if vim.b.ts_highlight then vim.treesitter.stop() else vim.treesitter.start() end
-end, { desc = "Toggle Treesitter Highlight" })
 
+Map( "n", "yod", "<cmd>lua if vim.diagnostic.is_enabled() then vim.diagnostic.disable() else vim.diagnostic.enable() end<CR>")
+Map("n", "yot", ":TagbarToggle<CR>")
+Map("n", "yoT", function() if vim.b.ts_highlight then vim.treesitter.stop() else vim.treesitter.start() end end, { desc = "Toggle Treesitter Highlight" })
 
 Map("n", "<leader>yF", function() local filename = vim.fn.expand("%") local lineno = vim.fn.line(".") vim.fn.setreg("+", filename .. ":" .. lineno) end)
 Map("n", "<leader>yf", function() local filename = vim.fn.expand("%") vim.fn.setreg("+", filename) end)
@@ -191,10 +191,49 @@ Map("n", "n", [[v:searchforward ? 'nzz' : 'Nzz']], { expr = true })
 -- Discovered it when using vim-forgit https://github.com/ray-x/forgit.nvim/issues/1
 -- vim.opt.shellcmdflag = "-ic"
 
--- Map("n", "<leader>ul", ":set list!<cr>")
-
-Map("n", "<leader>ya", ":keepjumps normal! maggyG`a<cr>")
-Map("n", "<leader>da", ":keepjumps normal! maggdG`a<cr>")
-
 -- Map("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
 -- vim.g.undotree_SetFocusWhenToggle = 0
+--
+
+function _G.map(mapping, opts)
+    vim.keymap.set(
+        mapping[1],
+        mapping[2],
+        mapping[3],
+        vim.tbl_extend('keep', opts or {}, { silent = true })
+    )
+end
+
+-- function _G.bmap(mapping, opts)
+--     _G.map(mapping, vim.tbl_extend('force', opts or {}, { buffer = 0 }))
+-- end
+
+map({
+    'n',
+    'gx',
+    function()
+        local url = vim.fn.expand('<cfile>', nil)
+
+        if not url:match('https') and url:match('/') then
+            url = 'https://github.com/' .. url
+        end
+
+        vim.fn.jobstart({ vim.env.BROWSER, url })
+    end,
+})
+
+-- map({
+--     'n',
+--     '<leader>r',
+--     function()
+--         vim.cmd('sil !mux file %')
+--     end,
+-- })
+
+-- map({ 'x', 'p', '"_dp' })
+-- map({ 'x', 'P', '"_dP' })
+
+-- for key, keymap in pairs({ b = 'b', q = 'c', l = 'l' }) do
+--     map({ 'n', ('[%s'):format(key), ('<cmd>%sprev<cr>'):format(keymap) })
+--     map({ 'n', (']%s'):format(key), ('<cmd>%snext<cr>'):format(keymap) })
+-- end

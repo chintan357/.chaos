@@ -48,6 +48,7 @@ BuildStatusline = function()
 		" ",
 		"%h", -- help text indicator
 		"%m",
+		"%{%v:lua.require'nvim-navic'.get_location()%}",
 		"%r",
 		"%=", -- alignment break
 		"%y",

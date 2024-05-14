@@ -15,11 +15,13 @@ return {
 		{ "nvim-telescope/telescope-ui-select.nvim" },
 		{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
 		"debugloop/telescope-undo.nvim",
+		"jvgrootveld/telescope-zoxide",
 	},
 	config = function()
 		local actions = require("telescope.actions")
 		local action_layout = require("telescope.actions.layout")
 		local builtin = require("telescope.builtin")
+
 		local keymap = vim.keymap
 
 		local vimgrep_arguments = {
@@ -37,38 +39,50 @@ return {
 		table.insert(vimgrep_arguments, "--glob")
 		table.insert(vimgrep_arguments, "!**/.git/*")
 
+		local is_inside_work_tree = {}
+		local project_files = function()
+			local opts = {} -- define here if you want to define something
+
+			local cwd = vim.fn.getcwd()
+			if is_inside_work_tree[cwd] == nil then
+				vim.fn.system("git rev-parse --is-inside-work-tree")
+				is_inside_work_tree[cwd] = vim.v.shell_error == 0
+			end
+
+			if is_inside_work_tree[cwd] then
+				builtin.git_files(opts)
+			else
+				builtin.find_files(opts)
+			end
+		end
+		vim.keymap.set("n", "<leader><Space>", project_files)
+		vim.keymap.set("n", "<leader>cd", require("telescope").extensions.zoxide.list)
+
+		-- vim.keymap.set('n', '<leader>.', function() builtin.find_files({ cwd = vim.fn.expand('%:p:h') }) end)
+
 		require("telescope").setup({
 			defaults = {
 				prompt_prefix = "  ",
-				-- selection_strategy = "reset",
-				layout_strategy = "horizontal",
-				layout_config = {
-					horizontal = {
-						preview_width = 0.55,
-						results_width = 0.8,
-					},
-					vertical = {
-						mirror = false,
-					},
-					width = 0.87,
-					height = 0.80,
-					preview_cutoff = 120,
+				preview = {
+					filesize_limit = 0.1, --MB
 				},
-				path_display = { "truncate" },
+				-- selection_strategy = "reset",
+				-- layout_strategy = "horizontal",
 				vimgrep_arguments = vimgrep_arguments,
 				mappings = {
 					i = {
 						["<c-t>"] = require("trouble.providers.telescope").open_with_trouble,
 						["<c-d>"] = actions.delete_buffer + actions.move_to_top,
-						["<C-u>"] = false,
 						["<M-p>"] = action_layout.toggle_preview,
+						["<esc>"] = actions.close,
+						["<C-u>"] = false,
+
 						["<C-s>"] = actions.cycle_previewers_next,
 						["<C-a>"] = actions.cycle_previewers_prev,
 						-- ['<c-enter>'] = 'to_fuzzy_refine',
 					},
 					n = {
 						["<c-t>"] = require("trouble.providers.telescope").open_with_trouble,
-						["q"] = actions.close,
 						["<M-p>"] = action_layout.toggle_preview,
 					},
 				},
@@ -76,16 +90,16 @@ return {
 			pickers = {
 				find_files = {
 					find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
-				},
-				mappings = {
-					n = {
-						["cd"] = function(prompt_bufnr)
-							local selection = require("telescope.actions.state").get_selected_entry()
-							local dir = vim.fn.fnamemodify(selection.path, ":p:h")
-							require("telescope.actions").close(prompt_bufnr)
-							-- Depending on what you want put `cd`, `lcd`, `tcd`
-							vim.cmd(string.format("silent lcd %s", dir))
-						end,
+					mappings = {
+						n = {
+							["cd"] = function(prompt_bufnr)
+								local selection = require("telescope.actions.state").get_selected_entry()
+								local dir = vim.fn.fnamemodify(selection.path, ":p:h")
+								require("telescope.actions").close(prompt_bufnr)
+								-- Depending on what you want put `cd`, `lcd`, `tcd`
+								vim.cmd(string.format("silent lcd %s", dir))
+							end,
+						},
 					},
 				},
 			},
@@ -97,6 +111,7 @@ return {
 					use_delta = true,
 					side_by_side = false,
 				},
+				zoxide = {},
 			},
 		})
 
@@ -104,8 +119,8 @@ return {
 		pcall(require("telescope").load_extension, "ui-select")
 
 		require("telescope").load_extension("undo")
+		require("telescope").load_extension("zoxide")
 		vim.keymap.set("n", "<leader>tu", "<cmd>Telescope undo<cr>")
-
 
 		-- stylua: ignore start
 		keymap.set("n", "<leader>sh", builtin.help_tags)
@@ -118,6 +133,7 @@ return {
 		keymap.set("n", "<leader>sq", builtin.quickfix)
 
 		keymap.set("n", "<leader>sf", builtin.find_files)
+		keymap.set("n", "<leader>sF", function() builtin.find_files({ cwd = vim.fn.expand("~") }) end)
 		keymap.set("n", "<leader>sr", builtin.oldfiles)
 		keymap.set("n", "<leader>sc", function() builtin.find_files({ cwd = vim.fn.stdpath("config") }) end)
 
@@ -131,40 +147,39 @@ return {
 		keymap.set("n", "<leader>sM", builtin.man_pages)
 		keymap.set("n", "<leader>sC", builtin.commands)
 
-		keymap.set("n", "<leader>ic", require("telescope.builtin").lsp_incoming_calls)
-		keymap.set("n", "<leader>oc", require("telescope.builtin").lsp_outgoing_calls)
-		keymap.set("n", "<leader>re", require("telescope.builtin").lsp_references)
+
 		keymap.set("n", "<leader>sd", function() builtin.diagnostics({ bufnr = 0 }) end)
 		keymap.set("n", "<leader>sD", require("telescope.builtin").diagnostics)
 
-		-- keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics({ bufnr = 0 }))
-		-- keymap.set("n", "<leader>td", require("telescope.builtin").lsp_type_definitions)
-		-- keymap.set("n", "<leader>td", require("telescope.builtin").lsp_implementations)
-		-- keymap.set("n", "<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols)
-		-- keymap.set("n", "<leader>df", require("telescope.builtin").lsp_definitions)
-		-- builtin.git_commits
+		keymap.set("n", "<leader>ic", require("telescope.builtin").lsp_incoming_calls)
+		keymap.set("n", "<leader>oc", require("telescope.builtin").lsp_outgoing_calls)
+		keymap.set("n", "gr", require("telescope.builtin").lsp_references)
+		keymap.set("n", "gws", require("telescope.builtin").lsp_workspace_symbols)
+		keymap.set("n", "gwS", require("telescope.builtin").lsp_dynamic_workspace_symbols)
+		keymap.set("n", "gs", require("telescope.builtin").lsp_document_symbols)
+		keymap.set("n", "gd", require("telescope.builtin").lsp_definitions)
+		-- keymap.set("n", "", require("telescope.builtin").lsp_type_definitions)
+		keymap.set("n", "gI", require("telescope.builtin").lsp_implementations)
+
 		-- builtin.git_bcommits
 		-- builtin.git_bcommits_range
 		-- builtin.git_branche
-		-- builtin.git_status
 		-- builtin.git_stash
 		-- builtin.vimoptions
 
-		keymap.set("n", "<leader>tt", require("telescope.builtin").treesitter)
+		keymap.set("n", "<leader>fs", require("telescope.builtin").treesitter)
 		keymap.set("n", "<leader>fm", function() require("telescope.builtin").treesitter({ default_text = ":method:" }) end)
 
 		keymap.set("n", "<leader>fw", builtin.grep_string)
-		keymap.set("v", "<leader>fw", function() builtin.grep_string({ cwd = false }) end)
 
 		keymap.set("n", "<leader>sg", builtin.live_grep)
+		keymap.set("n", "<leader>s/", function() builtin.live_grep({ grep_open_files = true, prompt_title = "Live Grep in Open Files" }) end, { desc = "[S]earch [/] in Open Files" })
 		keymap.set("n", "<leader>/", function()
 			builtin.current_buffer_fuzzy_find(
 				require("telescope.themes").get_dropdown({ winblend = 10, previewer = false })
 			)
 		end)
 
-		keymap.set("n", "<leader>s/", function() builtin.live_grep({ grep_open_files = true, prompt_title = "Live Grep in Open Files" }) end, { desc = "[S]earch [/] in Open Files" })
-		keymap.set("n", "<leader>sF", function() builtin.find_files({ cwd = vim.fn.expand("~") }) end)
 		keymap.set("n", "<leader>tb", builtin.builtin)
 	end,
 }

@@ -15,7 +15,7 @@ return {
 			end,
 		},
 		{
-			"<leader>tu",
+			"<leader>ut",
 			function()
 				require("trouble").toggle()
 			end,

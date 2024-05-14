@@ -15,9 +15,9 @@ return {
 
 		keymap("i", "<C-i>", "<Plug>(copilot-accept-line)", opts)
 
-		keymap("i", "<C-j>", "<Plug>(copilot-next)", opts)
-		keymap("i", "<C-k>", "<Plug>(copilot-previous)", opts)
-		keymap("i", "<C-l>", "<Plug>(copilot-suggest)", opts)
+		keymap("i", "<C-l>", "<Plug>(copilot-next)", opts)
+		keymap("i", "<C-h>", "<Plug>(copilot-previous)", opts)
+		keymap("i", "<C-i>", "<Plug>(copilot-suggest)", opts)
 		keymap("i", "<C-d>", "<Plug>(copilot-dismiss)", opts)
 	end,
 }

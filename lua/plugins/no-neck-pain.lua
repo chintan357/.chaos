@@ -13,15 +13,15 @@ return {
 		},
 		keys = {
 			{
-				"<leader>cz",
+				"yoz",
 				"<cmd>NoNeckPain<cr>",
 				desc = "NoNeckPain - Distraction Free Mode",
 			},
-			{
-				"<leader>cZ",
-				":NoNeckPainResize ",
-				desc = "NoNeckPain - Resize the window",
-			},
+			-- {
+			-- 	"<leader>cZ",
+			-- 	":NoNeckPainResize ",
+			-- 	desc = "NoNeckPain - Resize the window",
+			-- },
 		},
 	},
 }

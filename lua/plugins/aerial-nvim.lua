@@ -14,7 +14,6 @@ return {
 		if not status_ok then
 			return
 		end
-		local opts = { silent = true }
 
 		aerial.setup({
 			on_attach = function(bufnr)
@@ -28,7 +27,7 @@ return {
 			return
 		end
 
-		vim.keymap.set("n", "<leader>at", "<cmd>Telescope aerial<CR>", {
+		vim.keymap.set("n", "<leader>ta", "<cmd>Telescope aerial<CR>", {
 			desc = "Telescope Aerial",
 		})
 

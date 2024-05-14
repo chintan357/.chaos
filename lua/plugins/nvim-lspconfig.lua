@@ -1,19 +1,20 @@
 return {
-	-- https://github.com/neovim/nvim-lspconfig
-	--
 	"neovim/nvim-lspconfig",
 	event = "VeryLazy",
 	dependencies = {
-		-- https://github.com/williamboman/mason.nvim
 		{ "williamboman/mason.nvim", config = true },
-		-- https://github.com/williamboman/mason-lspconfig.nvim
 		{ "williamboman/mason-lspconfig.nvim" },
-		-- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim
 		{ "WhoIsSethDaniel/mason-tool-installer.nvim" },
-		-- Useful status updates for LSP https://github.com/j-hui/fidget.nvim
 		{ "j-hui/fidget.nvim", opts = {} },
-		-- Additional lua configuration, makes nvim stuff amazing! https://github.com/folke/neodev.nvim
 		{ "folke/neodev.nvim" },
+		{
+			"SmiteshP/nvim-navbuddy",
+			dependencies = {
+				"SmiteshP/nvim-navic",
+				"MunifTanjim/nui.nvim",
+			},
+			opts = { lsp = { auto_attach = true } },
+		},
 	},
 	config = function()
 		vim.api.nvim_create_autocmd("LspAttach", {
@@ -25,15 +26,9 @@ return {
 					vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 				end
 
-				map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
 				map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-				map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-				map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
-				map("<leader>ltd", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
-				map("<leader>lds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
-				map("<leader>lws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
-				map("<leader>lrn", vim.lsp.buf.rename, "[R]e[n]ame")
-				map("<leader>lca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+				map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+				map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 				map("K", vim.lsp.buf.hover, "Hover Documentation")
 
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
@@ -53,7 +48,7 @@ return {
 				end
 
 				if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
-					map("<leader>th", function()
+					map("yoh", function()
 						vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 					end, "[T]oggle Inlay [H]ints")
 				end
@@ -73,23 +68,6 @@ return {
 
 		local servers = {
 			marksman = {},
-			ruff = {
-				keys = {
-					{
-						"<leader>co",
-						function()
-							vim.lsp.buf.code_action({
-								apply = true,
-								context = {
-									only = { "source.organizeImports" },
-									diagnostics = {},
-								},
-							})
-						end,
-						desc = "Organize Imports",
-					},
-				},
-			},
 			lua_ls = {
 				settings = {
 					Lua = {
@@ -116,22 +94,7 @@ return {
 		vim.list_extend(ensure_installed, {
 			"pyright",
 			"lua_ls",
-			"bashls",
 			"jsonls",
-			"yamlls",
-			"ruff",
-			"shellcheck",
-			"cssls",
-			"isort",
-			"html",
-			"marksman",
-			"prettierd",
-			"prettier",
-			"stylua",
-			-- "codespell",
-			-- "misspell",
-			-- "cspell",
-			-- "markdownlint",
 		})
 
 		require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
@@ -188,5 +151,4 @@ return {
 --
 -- and elegantly composed help section, `:help lsp-vs-treesitter`
 --  See `:help K` for why this keymap.
--- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
 -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs

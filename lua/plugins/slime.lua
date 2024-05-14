@@ -16,6 +16,6 @@ return {
 		vim.keymap.set("n", "<leader>ac", "<Plug>SlimeSendCell<cr>", { remap = true, silent = false })
 		vim.keymap.set("n", "<leader>al", "<Plug>SlimeLineSend", { noremap = true, silent = true })
 		vim.keymap.set("n", "<leader>ap", "<Plug>SlimeParagraphSend", { noremap = true, silent = true })
-		vim.keymap.set({ "x", "v" }, "<leader>s", "<Plug>SlimeRegionSend", { noremap = true, silent = true })
+		vim.keymap.set({ "x", "v" }, "<leader>s", "ma<Plug>SlimeRegionSend<cr>`a", { noremap = true, silent = true })
 	end,
 }

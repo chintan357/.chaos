@@ -23,7 +23,7 @@ return {
 				})
 				:find()
 		end
-		vim.keymap.set("n", "<leader>pt", function()
+		vim.keymap.set("n", "<eader>pt", function()
 			toggle_telescope(require("harpoon"):list())
 		end, { desc = "Open harpoon window" })
 		--
@@ -42,10 +42,10 @@ return {
 		vim.keymap.set("n", "<leader>4", function()
 			harpoon:list():select(4)
 		end)
-		vim.keymap.set("n", "<C-S-P>", function()
+		vim.keymap.set("n", "<M-S-P>", function()
 			harpoon:list():prev()
 		end)
-		vim.keymap.set("n", "<C-S-N>", function()
+		vim.keymap.set("n", "<M-S-N>", function()
 			harpoon:list():next()
 		end)
 		vim.keymap.set("n", "<leader>hp", function()
@@ -58,7 +58,8 @@ return {
 			width = vim.api.nvim_win_get_width(0) - 4,
 		},
 		settings = {
-			save_on_toggle = true,
+			save_on_toggle = false,
+			sync_on_ui_close = true,
 		},
 	},
 }
