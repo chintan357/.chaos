@@ -23,10 +23,8 @@ return {
 			})
 		end,
 		mapping = {
-			-- Textobjects
 			object_scope = "ii",
 			object_scope_with_border = "ai",
-			-- Motions (jump to respective border line; if not present - body line)
 			goto_top = "[i",
 			goto_bottom = "]i",
 		},
@@ -36,7 +34,6 @@ return {
 		},
 	},
 	{
-		-- 	-- https://github.com/lukas-reineke/indent-blankline.nvim
 		"lukas-reineke/indent-blankline.nvim",
 		event = "VeryLazy",
 		main = "ibl",

@@ -13,7 +13,7 @@ return {
 		edit_with_instructions = {
 			diff = false,
 			keymaps = {
-				close = "<C-c>",
+				close = "q",
 				accept = "<C-y>",
 				toggle_diff = "<C-d>",
 				toggle_settings = "<C-o>",
@@ -24,28 +24,14 @@ return {
 		},
 		chat = {
 			welcome_message = "",
-			loading_text = "Loading, please wait ...",
-			question_sign = "",
-			answer_sign = "ﮧ",
+			loading_text = "Loading ...",
+			question_sign = "Q:",
+			answer_sign = "A:",
 			border_left_sign = "",
 			border_right_sign = "",
 			max_line_length = 120,
-			sessions_window = {
-				active_sign = " ✌️ ",
-				inactive_sign = " 👎 ",
-				current_line_sign = "",
-				border = {
-					style = "rounded",
-					text = {
-						top = " Sessions ",
-					},
-				},
-				win_options = {
-					winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
-				},
-			},
 			keymaps = {
-				close = "<C-c>",
+				close = "q",
 				yank_last = "<C-y>",
 				yank_last_code = "<C-k>",
 				scroll_up = "<C-u>",
@@ -166,6 +152,7 @@ return {
 		openai_edit_params = {
 			model = "gpt-3.5-turbo-0125	",
 			frequency_penalty = 0,
+			max_tokens = 4096,
 			presence_penalty = 0,
 			temperature = 0,
 			top_p = 1,

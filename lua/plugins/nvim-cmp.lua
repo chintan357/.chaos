@@ -2,9 +2,6 @@ return {
 	{
 		"L3MON4D3/LuaSnip",
 		version = "v2.*",
-		-- if vim.fn.has("win32") == 1 or vim.fn.executable("make") == 0 then
-		--   return
-		-- end
 		build = "make install_jsregexp",
 	},
 	{
@@ -27,6 +24,7 @@ return {
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
 			local lspkind = require("lspkind")
+
 			require("luasnip.loaders.from_vscode").lazy_load()
 			luasnip.config.setup({})
 
@@ -93,7 +91,6 @@ return {
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
 					{ name = "nvim_lsp_signature_help" },
-
 					{ name = "luasnip" },
 					{ name = "path" },
 					{ name = "emoji" },

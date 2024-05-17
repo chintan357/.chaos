@@ -195,32 +195,32 @@ Map("n", "n", [[v:searchforward ? 'nzz' : 'Nzz']], { expr = true })
 -- vim.g.undotree_SetFocusWhenToggle = 0
 --
 
-function _G.map(mapping, opts)
-    vim.keymap.set(
-        mapping[1],
-        mapping[2],
-        mapping[3],
-        vim.tbl_extend('keep', opts or {}, { silent = true })
-    )
-end
+-- function _G.map(mapping, opts)
+--     vim.keymap.set(
+--         mapping[1],
+--         mapping[2],
+--         mapping[3],
+--         vim.tbl_extend('keep', opts or {}, { silent = true })
+--     )
+-- end
 
 -- function _G.bmap(mapping, opts)
 --     _G.map(mapping, vim.tbl_extend('force', opts or {}, { buffer = 0 }))
 -- end
 
-map({
-    'n',
-    'gx',
-    function()
-        local url = vim.fn.expand('<cfile>', nil)
-
-        if not url:match('https') and url:match('/') then
-            url = 'https://github.com/' .. url
-        end
-
-        vim.fn.jobstart({ vim.env.BROWSER, url })
-    end,
-})
+-- map({
+--     'n',
+--     'gx',
+--     function()
+--         local url = vim.fn.expand('<cfile>', nil)
+--
+--         if not url:match('https') and url:match('/') then
+--             url = 'https://github.com/' .. url
+--         end
+--
+--         vim.fn.jobstart({ vim.env.BROWSER, url })
+--     end,
+-- })
 
 -- map({
 --     'n',

@@ -17,11 +17,6 @@ return {
 				"<cmd>NoNeckPain<cr>",
 				desc = "NoNeckPain - Distraction Free Mode",
 			},
-			-- {
-			-- 	"<leader>cZ",
-			-- 	":NoNeckPainResize ",
-			-- 	desc = "NoNeckPain - Resize the window",
-			-- },
 		},
 	},
 }

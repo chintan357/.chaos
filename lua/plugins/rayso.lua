@@ -3,7 +3,7 @@ return {
 	event = "VeryLazy",
 	config = function()
 		require("rayso").setup({
-			open_cmd = "open",
+			open_cmd = "open-cli",
 			options = {
 				logging_enabled = false,
 				theme = "midnight", -- crimson

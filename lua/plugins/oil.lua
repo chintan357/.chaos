@@ -7,19 +7,17 @@ return {
 		-- vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 		require("oil").setup({
 			-- Oil will take over directory buffers (e.g. `vim .` or `:e src/`) Set to false if you still want to use netrw.
-			default_file_explorer = true,
-			-- Id is automatically added at the beginning, and name at the end
+			default_file_explorer = false,
 			-- See :help oil-columns
 			columns = {
 				"icon",
 				-- "permissions",
-				-- "size",
-				-- "mtime",
+				"size",
+				"mtime",
 			},
 			-- Window-local options to use for oil buffers
 			delete_to_trash = true,
-			-- Skip the confirmation popup for simple operations (:help oil.skip_confirm_for_simple_edits)
-			skip_confirm_for_simple_edits = false,
+			skip_confirm_for_simple_edits = true,
 			-- Selecting a new/moved/renamed file or directory will prompt you to save changes first (:help prompt_save_on_select_new_entry)
 			prompt_save_on_select_new_entry = true,
 			-- Oil will automatically delete hidden buffers after this delay
@@ -38,10 +36,6 @@ return {
 			constrain_cursor = "editable",
 			-- Set to true to watch the filesystem for changes and reload oil
 			experimental_watch_for_changes = false,
-			-- Keymaps in oil buffer. Can be any value that `vim.keymap.set` accepts OR a table of keymap
-			-- options with a `callback` (e.g. { callback = function() ... end, desc = "", mode = "n" })
-			-- Additionally, if it is a string that matches "actions.<name>", it will use the mapping at require("oil.actions").<name>
-			-- Set to `false` to remove a keymap See :help oil-actions for a list of all available actions
 			keymaps = {
 				["g?"] = "actions.show_help",
 				["<CR>"] = "actions.select",
@@ -49,7 +43,7 @@ return {
 				["<C-h>"] = "actions.select_split",
 				["<C-t>"] = "actions.select_tab",
 				["<C-p>"] = "actions.preview",
-				["<C-c>"] = "actions.close",
+				["q"] = "actions.close",
 				["<C-l>"] = "actions.refresh",
 				["-"] = "actions.parent",
 				["_"] = "actions.open_cwd",
@@ -70,13 +64,10 @@ return {
 				end,
 				natural_order = true,
 				sort = {
-					-- sort order can be "asc" or "desc"
-					-- see :help oil-columns to see which columns are sortable
 					{ "type", "asc" },
 					{ "name", "asc" },
 				},
 			},
-			-- Configuration for the actions floating preview window
 			preview = {
 				-- Width dimensions can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
 				-- min_width and max_width can be a single value or a list of mixed integer/float types.

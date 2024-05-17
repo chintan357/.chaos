@@ -3,7 +3,6 @@ return {
 	event = "VimEnter",
 	opts = function()
 		local logo = {
-			-- Each line represents a part of the logo
 			[[]],
 			[[]],
 			[[]],
@@ -18,7 +17,6 @@ return {
 			[[  ███████████ ███    ███ █████████ █████ █████ ████ █████  ]],
 			[[ ██████  █████████████████████ ████ █████ █████ ████ ██████ ]],
 			[[                                                                       ]],
-			-- End of logo
 		}
 		-- logo = string.rep("\n", 8) .. logo .. "\n\n"
 
@@ -65,7 +63,6 @@ return {
 			button.key_format = "  %s"
 		end
 
-		-- close Lazy and re-open when the dashboard is ready
 		if vim.o.filetype == "lazy" then
 			vim.cmd.close()
 			vim.api.nvim_create_autocmd("User", {

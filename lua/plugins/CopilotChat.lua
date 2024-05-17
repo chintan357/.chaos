@@ -1,13 +1,13 @@
 local prompts = {
 	Explain = "Please explain how the following code works.",
 	Review = "Please review the following code and provide suggestions for improvement.",
-	Tests = "Please explain how the selected code works, then generate unit tests for it.",
 	Refactor = "Please refactor the following code to improve its clarity and readability.",
 	FixCode = "Please fix the following code to make it work as intended.",
 	FixError = "Please explain the error in the following text and provide a solution.",
-	BetterNamings = "Please provide better names for the following variables and functions.",
 	Documentation = "Please provide documentation for the following code.",
 	SwaggerApiDocs = "Please provide documentation for the following API using Swagger.",
+	BetterNamings = "Please provide better names for the following variables and functions.",
+	Tests = "Please explain how the selected code works, then generate unit tests for it.",
 
 	Summarize = "Please summarize the following text.",
 	Spelling = "Please correct any grammar and spelling errors in the following text.",
@@ -26,17 +26,6 @@ return {
 		},
 		keys = {
 			{
-				"<leader>cc",
-				function()
-					local input = vim.fn.input("Quick Chat: ")
-					if input ~= "" then
-						require("CopilotChat").ask(input, { selection = require("CopilotChat.select").buffer })
-					end
-				end,
-				mode = "x",
-				desc = "CopilotChat - Quick chat",
-			},
-			{
 				"<leader>sc",
 				":lua require('CopilotChat.integrations.telescope').pick(require('CopilotChat.actions').prompt_actions({selection = require('CopilotChat.select').visual}))<CR>",
 				mode = "x",
@@ -44,16 +33,6 @@ return {
 			},
 			{
 				"<leader>cc",
-				function()
-					local input = vim.fn.input("Ask Copilot: ")
-					if input ~= "" then
-						vim.cmd("CopilotChat " .. input)
-					end
-				end,
-				desc = "CopilotChat - Ask input",
-			},
-			{
-				"<leader>cC",
 				function()
 					local input = vim.fn.input("Quick Chat: ")
 					if input ~= "" then
@@ -75,9 +54,9 @@ return {
 			auto_follow_cursor = true,
 			auto_insert_mode = true,
 			clear_chat_on_new_prompt = false,
-			question_header = "👤",
-			answer_header = "🤖",
-			error_header = "⭕",
+			question_header = "",
+			answer_header = "",
+			error_header = "",
 			separator = " ",
 
 			context = nil, -- Default context to use, 'buffers', 'buffer' or none (can be specified manually in prompt via @).
@@ -101,7 +80,7 @@ return {
 				},
 				close = {
 					normal = "q",
-					insert = "<C-c>",
+					insert = "<C-C>",
 				},
 				reset = {
 					normal = "<C-l>",
@@ -130,7 +109,6 @@ return {
 			},
 		},
 		config = function(_, opts)
-			-- Custom buffer for CopilotChat
 			vim.api.nvim_create_autocmd("BufEnter", {
 				pattern = "copilot-*",
 				callback = function()

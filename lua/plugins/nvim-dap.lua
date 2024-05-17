@@ -32,16 +32,18 @@ return {
 		end
 
 
-		vim.keymap.set("n", "<Leader>bp", function() require("dap").toggle_breakpoint() end)
-		vim.keymap.set("n", "<Leader>bm", function() require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: ")) end)
-		vim.keymap.set("n", "<Leader>B", function() require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: ")) end)
-		vim.keymap.set("n", "<Leader>E", function() require("dap").set_exception_breakpoints() end)
-		vim.keymap.set("n", "<Leader>bc", function() require("dap").clear_breakpoints() end)
+		vim.keymap.set("n", "yob", function() require("dap").toggle_breakpoint() end)
 
-		vim.keymap.set("n", "di", function() require("dap").continue() end)
-		vim.keymap.set("n", "<F10>", function() require("dap").step_over() end)
-		vim.keymap.set("n", "<F11>", function() require("dap").step_into() end)
-		vim.keymap.set("n", "<F12>", function() require("dap").step_out() end)
+		-- vim.keymap.set("n", "<Leader>b", function() require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: ")) end)
+		-- vim.keymap.set("n", "<Leader>b", function() require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: ")) end)
+		-- vim.keymap.set("n", "<Leader>b", function() require("dap").set_exception_breakpoints() end)
+
+		vim.keymap.set("n", "]ob", function() require("dap").clear_breakpoints() end)
+
+		-- vim.keymap.set("n", "", function() require("dap").continue() end)
+		-- vim.keymap.set("n", "<F10>", function() require("dap").step_over() end)
+		-- vim.keymap.set("n", "<F11>", function() require("dap").step_into() end)
+		-- vim.keymap.set("n", "<F12>", function() require("dap").step_out() end)
 
 		vim.keymap.set("n", "<Leader>dl", function() require("dap").run_last() end)
 

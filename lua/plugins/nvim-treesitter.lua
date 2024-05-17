@@ -62,8 +62,8 @@ return {
 				indent = { enable = true },
 				auto_install = true,
 				auto_pairs = { enable = true },
-				-- autotag = { enable = true },
-				-- context_commentstring = { enable = true, disable = { "python", "css" } },
+				autotag = { enable = true },
+				context_commentstring = { enable = true },
 				ensure_installed = {
 					"python",
 					"javascript",
